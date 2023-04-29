@@ -1,3 +1,1 @@
-# ModManager
-
-random shit file i made for no reason at all 👍
+made this shit file so the setup shit stops annoying me
