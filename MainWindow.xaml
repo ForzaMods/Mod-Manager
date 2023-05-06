@@ -8,7 +8,7 @@
         Title="Forza Mod Manager" Height="600" Width="1200"
         Background="#2d2d30"
         ResizeMode="NoResize"
-        WindowStyle="None">
+        WindowStyle="None" Loaded="Window_Loaded">
 
     <Grid>
         <Rectangle VerticalAlignment="Top" HorizontalAlignment="Center" Width="1200" Height="35" Fill="Black" MouseLeftButtonDown="DragWindow_OnMouseLeftButtonDown"/>

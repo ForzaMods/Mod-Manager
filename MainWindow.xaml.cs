@@ -2,6 +2,8 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using Windows.Management.Deployment;
+using Gameloop.Vdf;
 
 
 namespace modmanager
@@ -53,7 +55,7 @@ namespace modmanager
 
         private void MinimizeButton(object sender, EventArgs e)
         {
-           WindowState = WindowState.Minimized;
+            WindowState = WindowState.Minimized;
         }
 
         private void DragWindow_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -62,6 +64,44 @@ namespace modmanager
             {
                 this.DragMove();
             }
+        }
+        public class UwpAppInstaller
+        {
+            public static string GetInstallPath(string packageName)
+            {
+                PackageManager packageManager = new PackageManager();
+                var packages = packageManager.FindPackages();
+                foreach (var package in packageManager.FindPackages())
+                {
+                    if (package.Id.FamilyName == packageName)
+                    {
+                        return package.InstalledLocation.Path;
+                    }
+                }
+
+                return null;
+            }
+        }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            //check install path for steam
+            dynamic libraryfolders = VdfConvert.Deserialize(File.ReadAllText(@"C:\Program Files (x86)\Steam\steamapps\libraryfolders.vdf"));
+            var installpath = "";
+            foreach (var folder in libraryfolders.Value)
+            {
+                if (folder.ToString().Contains("\"1551360\""))
+                {
+                    installpath = folder.Value.path.ToString() + @"\steamapps\common\ForzaHorizon5";
+                    MessageBox.Show(folder.Value.path.ToString() + @"\steamapps\common\ForzaHorizon5");
+                }
+            }
+            if (installpath == "")
+            {
+                string packageName = "Microsoft.624F8B84B80_8wekyb3d8bbwe";
+                string installPath = UwpAppInstaller.GetInstallPath(packageName);
+                MessageBox.Show(installPath);
+            }
+
         }
     }
 }
