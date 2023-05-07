@@ -8,14 +8,16 @@
         Title="Forza Mod Manager" Height="600" Width="1200"
         Background="#2d2d30"
         ResizeMode="NoResize"
-        WindowStyle="None" Loaded="Window_Loaded">
+        WindowStyle="None"
+        BorderBrush="Black"
+        BorderThickness="1"
+        WindowStartupLocation="CenterScreen">
 
     <Grid>
         <Rectangle VerticalAlignment="Top" HorizontalAlignment="Center" Width="1200" Height="35" Fill="Black" MouseLeftButtonDown="DragWindow_OnMouseLeftButtonDown"/>
-        <Label Content="Forza Mod Manager" FontSize="25" Margin="0,-7,0,0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top" MouseLeftButtonDown="DragWindow_OnMouseLeftButtonDown"/>
+        <Label Content="Forza Mod Manager" FontSize="25" Margin="0,-6,0,0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top" MouseLeftButtonDown="DragWindow_OnMouseLeftButtonDown"/>
         <Button Content="X" FontSize="25" Foreground="Red" Background="Black" Height="35" Width="35" BorderThickness="0" Margin="1165,0,0,565" Click="ExitButton"/>
         <Button Content="_" FontSize="20" Foreground="Orange" Background="Black" Height="35" Width="35" BorderThickness="0" Margin="1095,0,0,565" Click="MinimizeButton"/>
-        <Rectangle VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 35, 0, 0" Width="1200" Height="35" Fill="#1C1C1C"/>
-        <CheckBox x:Name="DiscordRPC" Content="Discord Rich Presence" FontSize="13" Foreground="White" Checked="DiscordRPCTrue" Unchecked="DiscordRPCFalse" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20" Width="150" Background="#2d2d30" Margin="0,85,15,0" />
+        <Button Content="Settings" FontSize="20" Foreground="White" Background="#1C1C1C" Width="120" BorderThickness="1" BorderBrush="Black" Margin="1068,553,10,10" Click="Settings_Open"/>
     </Grid>
 </Window>

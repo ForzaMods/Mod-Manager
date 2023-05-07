@@ -1,15 +1,32 @@
 ﻿using DiscordRPC;
 using DiscordRPC.Logging;
-using System.Windows;
+using System.IO;
+using System;
 
 namespace modmanager
 {
-    public partial class MainWindow : Window
+    public class DiscordRPC
     {
-        public DiscordRpcClient client;
+        public static DiscordRpcClient? client;
 
-        void RPCInitalize()
+        public static void CheckForSetting()
         {
+            string settingsFilePath = "C:\\Users\\" + Environment.UserName + "\\Documents\\ForzaModManager\\settings.ini";
+
+            if (File.Exists(settingsFilePath))
+            {
+                string fileContent = File.ReadAllText(settingsFilePath);
+
+                if (fileContent.Contains("Discord Rich Presence = True"))
+                {
+                    RPCInitalize();
+                }
+            }
+        }
+
+        public static void RPCInitalize()
+        {
+
             client = new DiscordRpcClient("1101958992328142959");
             client.Logger = new ConsoleLogger() { Level = LogLevel.None };
 
@@ -31,9 +48,9 @@ namespace modmanager
             });  
         }
 
-        void RPCDeinitalize()
+        public static void RPCDeinitalize()
         {
-            client.Dispose();
+            client?.Dispose();
         }
     }
 }

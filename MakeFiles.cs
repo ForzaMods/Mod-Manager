@@ -1,14 +1,14 @@
 ﻿using System;
 using System.IO;
-using System.Windows;
 
 namespace modmanager
 {
-    public partial class MainWindow : Window
+    public class MakeFiles
     {
-        private void makeFiles()
+        public static void makeFiles()
         {
             string folderPath = "C:\\Users\\" + Environment.UserName + "\\Documents\\ForzaModManager";
+
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
@@ -24,6 +24,7 @@ namespace modmanager
                         writer.WriteLine("Theme = Dracula");
                         writer.WriteLine("Discord Rich Presence = True");
                         writer.WriteLine("Game Install Path = Not Found");
+                        writer.WriteLine("Game Install Path Set = Not Set");
                     }
                }
             }
