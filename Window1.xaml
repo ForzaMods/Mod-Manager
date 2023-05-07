@@ -21,6 +21,6 @@
         <Label Content="Special thanks to:" FontSize="15" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Margin="313,45,0,0"/>
         <Label Content="Draff - automatic install path finder" FontSize="12" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="242,69,0,0" />
         <Button Content="X" FontSize="20" Foreground="Red" Background="Black" Width="35" BorderThickness="0" Margin="413,2,0,368" Click="SettingsClose"/>
-        <Button x:Name="PathButton" FontSize="15" Foreground="White" Height="30" Width="100" Background="#2d2d30" BorderBrush="Black" Margin="111,321,237,47" RenderTransformOrigin="0.142,0.595"/>
+        <Button Click="PathButton" FontSize="15" Foreground="White" Height="30" Width="150" Background="#2d2d30" BorderBrush="Black" Margin="106,321,192,47" Content="Set Path Manually"/>
     </Grid>
 </Window>

@@ -58,7 +58,7 @@ namespace modmanager
             }
         }
 
-        //Manual Install Path Button
+
 
 
         private void DragWindow_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -90,9 +90,29 @@ namespace modmanager
             File.WriteAllText(settingsFilePath, fileContent);
         }
 
-        void v()
+        private void PathButton(object sender, RoutedEventArgs e)
         {
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            var result = dialog.ShowDialog();
 
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                InstallPathLabel.FontSize = 10;
+                InstallPathLabel.Content = dialog.SelectedPath;
+
+                string settingsFilePath = "C:\\Users\\" + Environment.UserName + "\\Documents\\ForzaModManager\\settings.ini";
+                string[] lines = File.ReadAllLines(settingsFilePath);
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    if (lines[i].Contains("Game Install Path"))
+                    {
+                        lines[i] = "Game Install Path = " + dialog.SelectedPath; 
+                        break;
+                    }
+                }
+
+                File.WriteAllLines(settingsFilePath, lines);
+            }
         }
 
     }

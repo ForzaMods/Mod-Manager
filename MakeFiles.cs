@@ -24,7 +24,6 @@ namespace modmanager
                         writer.WriteLine("Theme = Dracula");
                         writer.WriteLine("Discord Rich Presence = True");
                         writer.WriteLine("Game Install Path = Not Found");
-                        writer.WriteLine("Game Install Path Set = Not Set");
                     }
                }
             }

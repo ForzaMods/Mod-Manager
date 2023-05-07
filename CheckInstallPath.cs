@@ -40,18 +40,36 @@ namespace modmanager
                     if (folder.ToString().Contains("\"1551360\""))
                     {
                         installpath = folder.Value.path.ToString() + @"\steamapps\common\ForzaHorizon5";
-                        fileContent = fileContent.Replace("Game Install Path = Not Found", "Game Install Path = " + installpath);
-                        fileContent = fileContent.Replace("Game Install Path Set = Not Set", "Game Install Path Set = Automatically");
-                        File.WriteAllText(settingsFilePath, fileContent);
+                        
+                        string[] lines = File.ReadAllLines(settingsFilePath);
+                        for (int i = 0; i < lines.Length; i++)
+                        {
+                            if (lines[i].Contains("Game Install Path"))
+                            {
+                                lines[i] = "Game Install Path = " + installpath;
+                                break;
+                            }
+                        }
+
+                        File.WriteAllLines(settingsFilePath, lines);
                     }
                 }
                 if (installpath == "")
                 {
                     string packageName = "Microsoft.624F8B84B80_8wekyb3d8bbwe";
                     string installpathMS = GetInstallPath(packageName);
-                    fileContent = fileContent.Replace("Game Install Path = Not Found", "Game Install Path = " + installpathMS);
-                    fileContent = fileContent.Replace("Game Install Path Set = Not Set", "Game Install Path Set = Automatically");
-                    File.WriteAllText(settingsFilePath, fileContent);
+
+                    string[] lines = File.ReadAllLines(settingsFilePath);
+                    for (int i = 0; i < lines.Length; i++)
+                    {
+                        if (lines[i].Contains("Game Install Path"))
+                        {
+                            lines[i] = "Game Install Path = " + installpathMS;
+                            break;
+                        }
+                    }
+
+                    File.WriteAllLines(settingsFilePath, lines);
                 }
             }
         }
