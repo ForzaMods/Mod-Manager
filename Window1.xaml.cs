@@ -114,6 +114,5 @@ namespace modmanager
                 File.WriteAllLines(settingsFilePath, lines);
             }
         }
-
     }
 }

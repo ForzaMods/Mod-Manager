@@ -11,6 +11,7 @@ namespace modmanager
         {
             InitializeComponent();
             MakeFiles.makeFiles();
+            MakeFiles.makeSettingsFile();
             InstallPath.installPath();
             DiscordRPC.CheckForSetting();
             

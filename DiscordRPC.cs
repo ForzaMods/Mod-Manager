@@ -50,7 +50,7 @@ namespace modmanager
 
         public static void RPCDeinitalize()
         {
-            client?.Dispose();
+            client.Dispose();
         }
     }
 }
