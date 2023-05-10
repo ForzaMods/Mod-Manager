@@ -19,5 +19,7 @@
         <Button Content="X" FontSize="25" Foreground="Red" Background="Black" Height="35" Width="35" BorderThickness="0" Margin="1165,0,0,565" Click="ExitButton"/>
         <Button Content="_" FontSize="20" Foreground="Orange" Background="Black" Height="35" Width="35" BorderThickness="0" Margin="1095,0,0,565" Click="MinimizeButton"/>
         <Button Content="Settings" FontSize="20" Foreground="White" Background="#1C1C1C" Width="120" BorderThickness="1" BorderBrush="Black" Margin="1068,553,10,10" Click="Settings_Open"/>
+
+        <local:UserControl1 Margin="21,40,818,219"></local:UserControl1>    
     </Grid>
 </Window>

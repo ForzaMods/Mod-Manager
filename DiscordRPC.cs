@@ -7,7 +7,7 @@ namespace modmanager
 {
     public class DiscordRPC
     {
-        public static DiscordRpcClient? client;
+        public static DiscordRpcClient client;
 
         public static void CheckForSetting()
         {

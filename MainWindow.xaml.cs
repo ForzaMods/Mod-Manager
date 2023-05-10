@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
@@ -10,6 +11,7 @@ namespace modmanager
         public MainWindow()
         {
             InitializeComponent();
+
             MakeFiles.makeFiles();
             MakeFiles.makeSettingsFile();
             InstallPath.installPath();
@@ -19,9 +21,13 @@ namespace modmanager
 
         private void ExitButton(object sender, EventArgs e)
         {
-            Window1 settings = new Window1();
-            settings.Close();
-            Close();
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window is Window1 || window is MainWindow || window is Window2)
+                {
+                    window.Close();
+                }
+            }
         }
 
         private void MinimizeButton(object sender, EventArgs e)
@@ -50,3 +56,4 @@ namespace modmanager
         }
     }
 }
+ 
