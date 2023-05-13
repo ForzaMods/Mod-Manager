@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Window2" Height="200" Width="300"
+        Title="Error Reporting" Height="200" Width="300"
         WindowStyle="None"
         ResizeMode="NoResize"
         Background="#2d2d30"
-        BorderThickness="1">
+        BorderThickness="1"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Rectangle Fill="Black" Height="30" VerticalAlignment="Top" MouseLeftButtonDown="DragWindow_OnMouseLeftButtonDown" />
         <Label Content="An error occured" Foreground="White" Height="35" Width="125" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Center" MouseLeftButtonDown="DragWindow_OnMouseLeftButtonDown" />

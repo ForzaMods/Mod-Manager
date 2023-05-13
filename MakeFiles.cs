@@ -6,14 +6,12 @@ namespace modmanager
     public class MakeFiles
     {
         public static string folderPath = "C:\\Users\\" + Environment.UserName + "\\Documents\\ForzaModManager";
-        public static void makeFiles()
+        public static void makeFolders()
         {
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
                 Directory.CreateDirectory(folderPath + "\\OriginalFiles");
-
-
             }
         }
 
@@ -28,6 +26,7 @@ namespace modmanager
                     writer.WriteLine("[Settings]");
                     writer.WriteLine("Discord Rich Presence = True");
                     writer.WriteLine("Game Install Path = Not Found");
+                    writer.WriteLine("First Launch = 1");
                 }
             }
         }

@@ -1,6 +1,9 @@
 ﻿using Gameloop.Vdf;
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.Security.Principal;
+using System.Windows;
 using Windows.Management.Deployment;
 
 namespace modmanager
@@ -26,9 +29,34 @@ namespace modmanager
             return null;
         }
 
+        public static void FirstLaunch()
+        {
+            if (SettingsPaths.SettingsPathRead.Contains("First Launch = 1"))
+            {
+                if (new WindowsPrincipal(WindowsIdentity.GetCurrent())
+                    .IsInRole(WindowsBuiltInRole.User))
+                {
+                    var exeName = Process.GetCurrentProcess().MainModule.FileName;
+                    ProcessStartInfo startInfo = new ProcessStartInfo(exeName);
+                    startInfo.Verb = "runas";
+                    startInfo.Arguments = "restart";
+                    Process.Start(startInfo);
+                    Application.Current.Shutdown();
+                }
+                if (new WindowsPrincipal(WindowsIdentity.GetCurrent())
+                    .IsInRole(WindowsBuiltInRole.Administrator))
+                {
+                    installPath();
+                    string fileContent = File.ReadAllText(settingsFilePath);
+                    fileContent = fileContent.Replace("First Launch = 1", "First Launch = 0");
+                    File.WriteAllText(settingsFilePath, fileContent);
+                }
+            }
+        }
+
         public static void installPath()
         {
-            string fileContent = File.ReadAllText(path: settingsFilePath);
+            string fileContent = File.ReadAllText(settingsFilePath);
 
             if (fileContent.Contains("Game Install Path = Not Found"))
             {
@@ -69,7 +97,7 @@ namespace modmanager
                         }
                     }
 
-                    File.WriteAllLines(settingsFilePath, lines);
+                    File.WriteAllLines(settingsFilePath, lines); 
                 }
             }
         }

@@ -23,9 +23,8 @@ namespace modmanager
             }
             catch (Exception ex)
             {
-                Window2 window2 = new Window2();
-                window2.errorcode.Content = ex.Message;
-                window2.Show();
+                ErrorReport.ErrorReporting.errorcode.Content = ex.Message;
+                ErrorReport.ErrorReporting.Show();
             }
         }
     }

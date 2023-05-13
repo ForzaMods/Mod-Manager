@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 
@@ -11,12 +11,40 @@ namespace modmanager
         public MainWindow()
         {
             InitializeComponent();
+            ContentRendered += MW_Loaded;
+            PreviewDragOver += MW_PDO;
+            Drop += MW_Drop;
 
-            MakeFiles.makeFiles();
+
+        }
+
+        private void MW_Loaded(object? sender, EventArgs e)
+        {
+            MakeFiles.makeFolders();
             MakeFiles.makeSettingsFile();
-            InstallPath.installPath();
             DiscordRPC.CheckForSetting();
-            
+            InstallPath.FirstLaunch();
+        }
+
+        private void MW_PDO(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+            e.Effects = DragDropEffects.Copy;
+        } 
+
+        private void MW_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                foreach (string file in files)
+                {
+                    if (Path.GetExtension(file).ToLower() == ".zip")
+                    {
+                        MessageBox.Show("aaaaa");
+                    }
+                }
+            }
         }
 
         private void ExitButton(object sender, EventArgs e)

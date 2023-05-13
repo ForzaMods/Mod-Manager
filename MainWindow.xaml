@@ -11,7 +11,8 @@
         WindowStyle="None"
         BorderBrush="Black"
         BorderThickness="1"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        AllowDrop="True">
 
     <Grid>
         <Rectangle VerticalAlignment="Top" HorizontalAlignment="Center" Width="1200" Height="35" Fill="Black" MouseLeftButtonDown="DragWindow_OnMouseLeftButtonDown"/>
