@@ -11,19 +11,18 @@ namespace modmanager
         public MainWindow()
         {
             InitializeComponent();
-            ContentRendered += MW_Loaded;
+
+
+            MakeFiles.makeFolders();
+            MakeFiles.makeSettingsFile();
+            InstallPath.FirstLaunch();
+            DiscordRPC.CheckForSetting();
+
+            // Drag and drop
             PreviewDragOver += MW_PDO;
             Drop += MW_Drop;
 
 
-        }
-
-        private void MW_Loaded(object? sender, EventArgs e)
-        {
-            MakeFiles.makeFolders();
-            MakeFiles.makeSettingsFile();
-            DiscordRPC.CheckForSetting();
-            InstallPath.FirstLaunch();
         }
 
         private void MW_PDO(object sender, DragEventArgs e)

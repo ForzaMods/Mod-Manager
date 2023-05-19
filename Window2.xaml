@@ -9,7 +9,7 @@
         ResizeMode="NoResize"
         Background="#2d2d30"
         BorderThickness="1"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" Topmost="True">
     <Grid>
         <Rectangle Fill="Black" Height="30" VerticalAlignment="Top" MouseLeftButtonDown="DragWindow_OnMouseLeftButtonDown" />
         <Label Content="An error occured" Foreground="White" Height="35" Width="125" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Center" MouseLeftButtonDown="DragWindow_OnMouseLeftButtonDown" />

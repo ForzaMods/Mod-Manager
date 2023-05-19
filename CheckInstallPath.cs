@@ -1,4 +1,5 @@
 ﻿using Gameloop.Vdf;
+using Microsoft.Win32.TaskScheduler;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -34,22 +35,30 @@ namespace modmanager
             if (SettingsPaths.SettingsPathRead.Contains("First Launch = 1"))
             {
                 if (new WindowsPrincipal(WindowsIdentity.GetCurrent())
-                    .IsInRole(WindowsBuiltInRole.User))
-                {
-                    var exeName = Process.GetCurrentProcess().MainModule.FileName;
-                    ProcessStartInfo startInfo = new ProcessStartInfo(exeName);
-                    startInfo.Verb = "runas";
-                    startInfo.Arguments = "restart";
-                    Process.Start(startInfo);
-                    Application.Current.Shutdown();
-                }
-                if (new WindowsPrincipal(WindowsIdentity.GetCurrent())
                     .IsInRole(WindowsBuiltInRole.Administrator))
                 {
                     installPath();
+
+                    // Set first launch to 0
                     string fileContent = File.ReadAllText(settingsFilePath);
                     fileContent = fileContent.Replace("First Launch = 1", "First Launch = 0");
                     File.WriteAllText(settingsFilePath, fileContent);
+
+                    // Restart the app as user mode
+                    var exeName = Environment.ProcessPath;
+                    ProcessStartInfo startInfo = new ProcessStartInfo(exeName);
+                    startInfo.UseShellExecute = true;
+                    startInfo.Verb = "open";
+                    Process.Start(startInfo);
+
+                    Application.Current.Shutdown();
+                }
+                else
+                {
+                    ErrorReport.AllClose = true;
+
+                    ErrorReport.ErrorReporting.errorcode.Content = "Please restart this app as admin mode";
+                    ErrorReport.ErrorReporting.Show();
                 }
             }
         }

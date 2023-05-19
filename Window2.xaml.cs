@@ -20,7 +20,20 @@ namespace modmanager
 
         private void CloseErrorReporting(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            if (ErrorReport.AllClose)
+            {
+                foreach (Window window in Application.Current.Windows)
+                {
+                    if (window is Window1 || window is MainWindow || window is Window2)
+                    {
+                        window.Close();
+                    }
+                }
+            }
+            else
+            {
+                Close();
+            }
         }
     }
 }
