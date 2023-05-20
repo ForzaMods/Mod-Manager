@@ -27,6 +27,7 @@ namespace modmanager
                     writer.WriteLine("Discord Rich Presence = True");
                     writer.WriteLine("Game Install Path = Not Found");
                     writer.WriteLine("First Launch = 1");
+                    writer.WriteLine("Usermode = 1");
                 }
             }
         }

@@ -1,11 +1,10 @@
 ﻿using Gameloop.Vdf;
-using Microsoft.Win32.TaskScheduler;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Principal;
-using System.Windows;
 using Windows.Management.Deployment;
+using Application = System.Windows.Application;
 
 namespace modmanager
 {
@@ -34,6 +33,8 @@ namespace modmanager
         {
             if (SettingsPaths.SettingsPathRead.Contains("First Launch = 1"))
             {
+                var exePath = Process.GetCurrentProcess().MainModule.FileName;
+
                 if (new WindowsPrincipal(WindowsIdentity.GetCurrent())
                     .IsInRole(WindowsBuiltInRole.Administrator))
                 {
@@ -45,23 +46,38 @@ namespace modmanager
                     File.WriteAllText(settingsFilePath, fileContent);
 
                     // Restart the app as user mode
-                    var exeName = Environment.ProcessPath;
-                    ProcessStartInfo startInfo = new ProcessStartInfo(exeName);
+                    ProcessStartInfo startInfo = new ProcessStartInfo();
+                    startInfo.FileName = "explorer";
+                    startInfo.Arguments = exePath;
                     startInfo.UseShellExecute = true;
-                    startInfo.Verb = "open";
-                    Process.Start(startInfo);
 
+                    Process.Start(startInfo);
                     Application.Current.Shutdown();
                 }
-                else
+                if (new WindowsPrincipal(WindowsIdentity.GetCurrent())
+                    .IsInRole(WindowsBuiltInRole.User))
                 {
-                    ErrorReport.AllClose = true;
+                    // Restart the app as admin if "Usermode = 1"
+                    if (SettingsPaths.SettingsPathRead.Contains("Usermode = 1"))
+                    {
+                        // Set test to 0
+                        string fileContent = File.ReadAllText(settingsFilePath);
+                        fileContent = fileContent.Replace("Usermode = 1", "");
+                        File.WriteAllText(settingsFilePath, fileContent);
 
-                    ErrorReport.ErrorReporting.errorcode.Content = "Please restart this app as admin mode";
-                    ErrorReport.ErrorReporting.Show();
+                        // Restart part
+                        ProcessStartInfo startInfoUser = new ProcessStartInfo(exePath);
+                        startInfoUser.Verb = "runas";
+                        startInfoUser.Arguments = "restart";
+                        startInfoUser.UseShellExecute = true;
+
+                        Process.Start(startInfoUser);
+                        Application.Current.Shutdown();
+                    }
                 }
             }
         }
+
 
         public static void installPath()
         {
