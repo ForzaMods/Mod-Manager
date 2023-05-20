@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:modmanager"
         mc:Ignorable="d"
         Title="Forza Mod Manager" Height="600" Width="1200"
-        Background="#2d2d30"
+        Background="#3c3c3c"
         ResizeMode="NoResize"
         WindowStyle="None"
         BorderBrush="Black"

@@ -9,6 +9,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="DragAndDropInstall.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UserControl1.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -18,11 +21,11 @@
     <Compile Update="Window2.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Window3.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="DragAndDropInstall.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -33,9 +36,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Window2.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Window3.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

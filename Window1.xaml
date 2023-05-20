@@ -3,23 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:modmanager"
         mc:Ignorable="d"
         Title="Settings" Height="400" Width="450"
-        WindowStyle="None"
-        ResizeMode="NoResize"
-        Background="#2d2d30"
-        BorderThickness="1"
-        BorderBrush="Black"
-        WindowStartupLocation="CenterScreen">
+        WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Background="#3c3c3c" BorderThickness="1" BorderBrush="Black">
     <Grid>
         <CheckBox x:Name="DiscordRPCButton" Content="Discord Rich Presence" FontSize="13" Foreground="White" Checked="DiscordRPCTrue" Unchecked="DiscordRPCFalse" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="150" Background="#595959" Margin="11,52,0,0" />
-        <Label FontSize="17" Foreground="White" Height="30" Content="Install path:" HorizontalAlignment="Left" Margin="10,319,0,49"/>
+        <Label FontSize="17" Foreground="White" Height="30" Content="Install path:" HorizontalAlignment="Left" Margin="10,320,0,50"/>
         <Label x:Name="InstallPathLabel" Foreground="White" Height="25" FontSize="10" Margin="10,349,10,24"/>
         <Rectangle VerticalAlignment="Top" HorizontalAlignment="Center" Width="448" Height="30" Fill="Black" MouseLeftButtonDown="DragWindow_OnMouseLeftButtonDown"/>
         <Label Content="Settings" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, -5, 0, 0" MouseLeftButtonDown="DragWindow_OnMouseLeftButtonDown"/>
-        <Label Content="Special thanks to:" FontSize="15" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Margin="313,45,0,0"/>
-        <Label Content="Draff - automatic install path finder" FontSize="12" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="242,69,0,0" />
+        <Label Content="Special thanks to:" FontSize="15" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Margin="310,45,0,0"/>
+        <Label Content="Draff - automatic install path finder" FontSize="12" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="240,70,0,0" />
         <Button Content="X" FontSize="20" Foreground="Red" Background="Black" Width="35" BorderThickness="0" Margin="413,2,0,368" Click="SettingsClose"/>
         <Button Click="PathButton" FontSize="15" Foreground="White" Height="30" Width="150" Background="#2d2d30" BorderBrush="Black" Margin="106,321,192,47" Content="Set Path Manually"/>
     </Grid>

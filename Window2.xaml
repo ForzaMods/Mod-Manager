@@ -7,7 +7,7 @@
         Title="Error Reporting" Height="200" Width="300"
         WindowStyle="None"
         ResizeMode="NoResize"
-        Background="#2d2d30"
+        Background="#3c3c3c"
         BorderThickness="1"
         WindowStartupLocation="CenterScreen" Topmost="True">
     <Grid>

@@ -42,6 +42,10 @@ namespace modmanager
                     {
                         MessageBox.Show("aaaaa");
                     }
+                    else
+                    {
+                        MessageBox.Show("Error: please drop a correct .zip archive", "Not a correct archive");
+                    }
                 }
             }
         }

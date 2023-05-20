@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Security.Principal;
 using Windows.Management.Deployment;
 using Application = System.Windows.Application;
@@ -78,51 +79,62 @@ namespace modmanager
             }
         }
 
-
         public static void installPath()
         {
+            // Find the line with the "Game Install Path" setting
             string fileContent = File.ReadAllText(settingsFilePath);
+            string gameInstallPathLine = fileContent
+                .Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                .FirstOrDefault(line => line.StartsWith("Game Install Path"));
 
-            if (fileContent.Contains("Game Install Path = Not Found"))
+            if (gameInstallPathLine != null)
             {
+                // Extract the folder path after the "=" sign
+                string folderPath = gameInstallPathLine.Substring(gameInstallPathLine.IndexOf('=') + 1).Trim();
 
-                dynamic libraryfolders = VdfConvert.Deserialize(File.ReadAllText(@"C:\Program Files (x86)\Steam\steamapps\libraryfolders.vdf"));
-                var installpath = "";
-                foreach (var folder in libraryfolders.Value)
+                // Check if the folder exists
+                bool folderExists = Directory.Exists(folderPath);
+
+                if (!folderExists)
                 {
-                    if (folder.ToString().Contains("\"1551360\""))
+                    dynamic libraryfolders = VdfConvert.Deserialize(File.ReadAllText(@"C:\Program Files (x86)\Steam\steamapps\libraryfolders.vdf"));
+                    var installpath = "";
+                    foreach (var folder in libraryfolders.Value)
                     {
-                        installpath = folder.Value.path.ToString() + @"\steamapps\common\ForzaHorizon5";
-                        
+                        if (folder.ToString().Contains("\"1551360\""))
+                        {
+                            installpath = folder.Value.path.ToString() + @"\steamapps\common\ForzaHorizon5";
+
+                            string[] lines = File.ReadAllLines(settingsFilePath);
+                            for (int i = 0; i < lines.Length; i++)
+                            {
+                                if (lines[i].Contains("Game Install Path"))
+                                {
+                                    lines[i] = "Game Install Path = " + installpath;
+                                    break;
+                                }
+                            }
+
+                            File.WriteAllLines(settingsFilePath, lines);
+                        }
+                    }
+                    if (installpath == "")
+                    {
+                        string packageName = "Microsoft.624F8B84B80_8wekyb3d8bbwe";
+                        string installpathMS = GetInstallPath(packageName);
+
                         string[] lines = File.ReadAllLines(settingsFilePath);
                         for (int i = 0; i < lines.Length; i++)
                         {
                             if (lines[i].Contains("Game Install Path"))
                             {
-                                lines[i] = "Game Install Path = " + installpath;
+                                lines[i] = "Game Install Path = " + installpathMS;
                                 break;
                             }
                         }
 
                         File.WriteAllLines(settingsFilePath, lines);
                     }
-                }
-                if (installpath == "")
-                {
-                    string packageName = "Microsoft.624F8B84B80_8wekyb3d8bbwe";
-                    string installpathMS = GetInstallPath(packageName);
-
-                    string[] lines = File.ReadAllLines(settingsFilePath);
-                    for (int i = 0; i < lines.Length; i++)
-                    {
-                        if (lines[i].Contains("Game Install Path"))
-                        {
-                            lines[i] = "Game Install Path = " + installpathMS;
-                            break;
-                        }
-                    }
-
-                    File.WriteAllLines(settingsFilePath, lines); 
                 }
             }
         }
