@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mod-Manager-V1", "Mod-Manager-V1\Mod-Manager-V1.csproj", "{47DB4664-4FC2-4E73-9CF7-E62667A45561}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mod-Manager-V2", "Mod-Manager-V2\Mod-Manager-V2.csproj", "{3FB07463-4FE1-4599-BC89-A9D8851344EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
