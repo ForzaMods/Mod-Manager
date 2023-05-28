@@ -11,6 +11,8 @@ namespace Mod_Manager_V2
         {
             InitializeComponent();
             SettingsFile.CreateSettingsFile();
+            SettingsFile.CheckForDiscordRPC();
+            CheckForPath.InstallPath();
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)

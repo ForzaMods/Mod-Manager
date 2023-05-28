@@ -42,5 +42,17 @@ namespace Mod_Manager_V2.Resources
             SettingsParser.WriteFile(SettingsFile, Settings);
             #endregion
         }
+
+        public static void CheckForDiscordRPC()
+        {
+            #region Strings and bools
+            string SettingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
+            IniData Settings = new IniData();
+            #endregion
+
+            #region Parse Settings File
+            if (bool.Parse(Settings["Settings"]["Discord Rich Presence"] = "True")) { DiscordRichPresence.RPCInitialize(); }
+            #endregion
+        }
     }
 }

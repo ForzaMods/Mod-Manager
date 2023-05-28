@@ -10,26 +10,28 @@
         WindowStyle="None" ShowCloseButton="False" ShowTitleBar="False" BorderThickness="0" Topmost="True" ResizeMode="NoResize">
 
     <Border Background="#3d3d3d" 
-            CornerRadius="30">
+            CornerRadius="30" BorderThickness="5" BorderBrush="#1d1d1d">
         <Grid>
             <!-- Credits to ChrisF from https://stackoverflow.com/questions/1697413/wpf-rectangle-round-just-top-corners for this method -->
             <Border Grid.Row="0" Grid.ColumnSpan="2"
-                    CornerRadius="30,30,0,0" Background="#2d2d2d"
-                    Height="35" VerticalAlignment="Top">
+                    CornerRadius="25,25,0,0" Background="#2d2d2d"
+                    Height="40" VerticalAlignment="Top">
             </Border>
 
-            <!-- This is 100% stolen from the AIO V2 because i like it -->
-            <Rectangle Grid.Column="1" HorizontalAlignment="Right" Height="20" Margin="0,10,16,0" VerticalAlignment="Top" Width="20" MouseDown="Exit_Button">
-                <Rectangle.Fill>
-                    <SolidColorBrush Color="Black" Opacity="0"/>
-                </Rectangle.Fill>
-            </Rectangle>
+            <Label Content="Settings" Margin="16, 0" Height="40" VerticalAlignment="Top" Foreground="White" FontSize="21"/>
 
+            <!-- This is 100% stolen from the AIO V2 because i like it -->
             <Path Data="M259.7625 259.7625A9.375 9.375 0 0 0 259.7625 246.4875L53.5125 40.2375A9.375 9.375 0 0 0 40.2375 53.5125L246.4875 259.7625000000001A9.375 9.375 0 0 0 259.7625 259.7625000000001zM40.2375 259.7625A9.375 9.375 0 0 1 40.2375 246.4875L246.4875 40.2375A9.375 9.375 0 0 1 259.7625000000001 53.5125L53.5125 259.7625000000001A9.375 9.375 0 0 1 40.2375 259.7625000000001z"
                   Fill="White" Stretch="Fill"
                   Width="20" Height="20"
                   Margin="0,10,16,0" Grid.Column="1" Focusable="False" HorizontalAlignment="Right" VerticalAlignment="Top" 
             />
+            <Rectangle Grid.Column="1" HorizontalAlignment="Right" Height="20" Margin="0,10,16,0" VerticalAlignment="Top" Width="20" MouseDown="Exit_Button">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="Black" Opacity="0"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <!-- This is 100% stolen from the AIO V2 because i like it -->
         </Grid>
     </Border>
 </mah:MetroWindow>

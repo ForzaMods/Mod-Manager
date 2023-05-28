@@ -24,6 +24,8 @@ namespace Mod_Manager_V2.Resources
                     new Button() { Label = "Our Website", Url = "https://forzamods.github.io/website"}
                 }
             });
+
+            RPCClient.Initialize();
         }
         
         public static void RPCDeInitalize()
