@@ -26,12 +26,14 @@
                   Width="20" Height="20"
                   Margin="0,10,16,0" Grid.Column="1" Focusable="False" HorizontalAlignment="Right" VerticalAlignment="Top" 
             />
-            <Rectangle Grid.Column="1" HorizontalAlignment="Right" Height="20" Margin="0,10,16,0" VerticalAlignment="Top" Width="20" MouseDown="Exit_Button">
+            <Rectangle Grid.Column="1" HorizontalAlignment="Right" Height="20" Margin="0,10,16,0" VerticalAlignment="Top" Width="20" MouseDown="Exit_Button" Cursor="Hand">
                 <Rectangle.Fill>
                     <SolidColorBrush Color="Black" Opacity="0"/>
                 </Rectangle.Fill>
             </Rectangle>
             <!-- This is 100% stolen from the AIO V2 because i like it -->
+
+            <mah:ToggleSwitch x:Name="DiscordRPC" Content="Discord Rich Presence" Foreground="White" Toggled="DiscordRPCButton_Toggled"/>
         </Grid>
     </Border>
 </mah:MetroWindow>

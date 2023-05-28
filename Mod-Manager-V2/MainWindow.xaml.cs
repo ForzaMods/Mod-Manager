@@ -24,7 +24,7 @@ namespace Mod_Manager_V2
         {
             if (!SettingsVariables.SettingsStatus) { SettingsVariables.SettingsWindow.Show(); SettingsVariables.SettingsStatus = true; }
         }
-        
+
         private void Exit_Button(object sender, RoutedEventArgs e)
         {
             foreach (Window window in Application.Current.Windows)

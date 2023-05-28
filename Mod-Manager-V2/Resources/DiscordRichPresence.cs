@@ -4,6 +4,7 @@ namespace Mod_Manager_V2.Resources
 {
     internal class DiscordRichPresence
     {
+        #region RPC Initalize
         public static DiscordRpcClient RPCClient;
 
         public static void RPCInitialize()
@@ -27,10 +28,13 @@ namespace Mod_Manager_V2.Resources
 
             RPCClient.Initialize();
         }
-        
-        public static void RPCDeInitalize()
+        #endregion
+
+        #region RPC De-Initialize
+        public static void RPCDeInitialize()
         {
             RPCClient.Dispose();
         }
+        #endregion
     }
 }

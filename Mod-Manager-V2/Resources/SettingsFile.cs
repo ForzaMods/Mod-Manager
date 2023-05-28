@@ -51,7 +51,7 @@ namespace Mod_Manager_V2.Resources
             #endregion
 
             #region Parse Settings File
-            if (bool.Parse(Settings["Settings"]["Discord Rich Presence"] = "True")) { DiscordRichPresence.RPCInitialize(); }
+            if (bool.Parse(Settings["Settings"]["Discord Rich Presence"] = "True")) { DiscordRichPresence.RPCInitialize(); SettingsVariables.SettingsWindow.DiscordRPC.IsOn = true; }
             #endregion
         }
     }
