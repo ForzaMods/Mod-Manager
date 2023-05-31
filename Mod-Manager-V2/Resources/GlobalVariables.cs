@@ -8,4 +8,9 @@ namespace Mod_Manager_V2.Resources
 
         internal static readonly Settings SettingsWindow = new Settings();
     }
+    
+    internal class ErrorReportingVariables
+    {
+        internal static readonly ErrorReporting ErrorReportingWindow = new ErrorReporting();
+    }
 }

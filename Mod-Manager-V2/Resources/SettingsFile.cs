@@ -47,11 +47,16 @@ namespace Mod_Manager_V2.Resources
         {
             #region Strings and bools
             string SettingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
-            IniData Settings = new IniData();
+            var SettingsParser = new FileIniDataParser();
+            IniData Settings = SettingsParser.ReadFile(SettingsFile);
             #endregion
 
             #region Parse Settings File
-            if (bool.Parse(Settings["Settings"]["Discord Rich Presence"] = "True")) { DiscordRichPresence.RPCInitialize(); SettingsVariables.SettingsWindow.DiscordRPC.IsOn = true; }
+            if (Settings["Settings"]["Discord Rich Presence"].ToString() == "True")
+            {
+                try { DiscordRichPresence.RPCInitialize(); SettingsVariables.SettingsWindow.DiscordRPC.IsOn = true; }
+                catch (Exception ex) { ErrorReportingVariables.ErrorReportingWindow.ErrorCode.Content = ex.Message; ErrorReportingVariables.ErrorReportingWindow.Show(); }
+            }
             #endregion
         }
     }

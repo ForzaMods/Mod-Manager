@@ -33,7 +33,7 @@
             </Rectangle>
             <!-- This is 100% stolen from the AIO V2 because i like it -->
 
-            <mah:ToggleSwitch x:Name="DiscordRPC" Content="Discord Rich Presence" Foreground="White" Toggled="DiscordRPCButton_Toggled"/>
+            <mah:ToggleSwitch x:Name="DiscordRPC" Content="Discord Rich Presence" Foreground="White" Toggled="DiscordRPCButton_Toggled" Margin="10,-315,0,0"/>
         </Grid>
     </Border>
 </mah:MetroWindow>

@@ -32,17 +32,23 @@ namespace Mod_Manager_V2.Windows
             if (toggleSwitch.IsOn)
             {
                 #region Save Setings into a file and initialize
-                Settings["Settings"]["Discord Rich Presence"] = "True";
-                SettingsParser.WriteFile(SettingsFile, Settings);
-                DiscordRichPresence.RPCInitialize();
+                if (Settings["Settings"]["Discord Rich Presence"].ToString() == "False")
+                {
+                    Settings["Settings"]["Discord Rich Presence"] = "True";
+                    SettingsParser.WriteFile(SettingsFile, Settings);
+                    DiscordRichPresence.RPCInitialize();
+                }
                 #endregion
             }
             else
             {
                 #region Save Setings into a file and deinitalize
-                Settings["Settings"]["Discord Rich Presence"] = "False";
-                SettingsParser.WriteFile(SettingsFile, Settings);
-                DiscordRichPresence.RPCDeInitialize();
+                if (Settings["Settings"]["Discord Rich Presence"].ToString() == "True")
+                {
+                    Settings["Settings"]["Discord Rich Presence"] = "False";
+                    SettingsParser.WriteFile(SettingsFile, Settings);
+                    DiscordRichPresence.RPCDeInitialize();
+                }
                 #endregion
             }
         }
