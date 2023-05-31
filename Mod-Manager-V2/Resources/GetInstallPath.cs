@@ -10,7 +10,6 @@ namespace Mod_Manager_V2.Resources
 {
     public class CheckForPath
     {
-
         public static string GetInstallPath(string packageName)
         {
             #region Get install path string
@@ -64,7 +63,12 @@ namespace Mod_Manager_V2.Resources
 
         public static void CheckIfFolderExists()
         {
-
+            string SettingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
+            var SettingsParser = new FileIniDataParser();
+            IniData Settings = SettingsParser.ReadFile(SettingsFile);
+            string value = Settings["Settings"]["Game Install Path"];
+            ErrorReportingVariables.ErrorReportingWindow.ErrorCode.Content = value;
+            ErrorReportingVariables.ErrorReportingWindow.Show();
         }
     }
 }

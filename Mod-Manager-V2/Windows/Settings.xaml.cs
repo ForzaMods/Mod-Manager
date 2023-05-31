@@ -23,12 +23,13 @@ namespace Mod_Manager_V2.Windows
         private void DiscordRPCButton_Toggled(object sender, RoutedEventArgs e)
         {
             #region Strings for settings file
+            var toggleSwitch = (ToggleSwitch)sender;
             string SettingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
             var SettingsParser = new FileIniDataParser();
             IniData Settings = SettingsParser.ReadFile(SettingsFile);
             #endregion
 
-            var toggleSwitch = (ToggleSwitch)sender;
+
             if (toggleSwitch.IsOn)
             {
                 #region Save Setings into a file and initialize
