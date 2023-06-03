@@ -63,12 +63,18 @@ namespace Mod_Manager_V2.Resources
 
         public static void CheckIfFolderExists()
         {
-            string SettingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
+            #region Settings stuff
+            string settingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
             var SettingsParser = new FileIniDataParser();
-            IniData Settings = SettingsParser.ReadFile(SettingsFile);
+            IniData Settings = SettingsParser.ReadFile(settingsFile);
             string value = Settings["Settings"]["Game Install Path"];
-            ErrorReportingVariables.ErrorReportingWindow.ErrorCode.Content = value;
-            ErrorReportingVariables.ErrorReportingWindow.Show();
+            bool FolderExists = File.Exists(value);
+            #endregion
+
+            if(!FolderExists)
+            {
+                InstallPath();
+            }
         }
     }
 }

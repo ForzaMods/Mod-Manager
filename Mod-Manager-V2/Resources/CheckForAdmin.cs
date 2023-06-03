@@ -3,11 +3,30 @@ using IniParser;
 using System;
 using System.Diagnostics;
 using System.Windows;
+using System.Security.Principal;
 
 namespace Mod_Manager_V2.Resources
 {
     public class CheckForAdmin
     {
+        #region Bools
+        public static bool UsermodeBool()
+        {
+            var identity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.User);
+        }
+
+        public static bool AdminModeBool()
+        {
+            var identity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+
+        #endregion
+
+        #region First Launch method
         public static void FirstLaunch()
         {
             #region Settings stuff, and vars for the shit
@@ -18,10 +37,10 @@ namespace Mod_Manager_V2.Resources
             #endregion
 
             #region Usermode part
-            if (bool.Parse(Settings["Settings"]["First Launch"]) && bool.Parse(Settings["Settings"]["User Mode"]))
+            if (UsermodeBool() && bool.Parse(Settings["Settings"]["Usermode"]))
             {
                 #region Replace "Usermode" string
-                Settings["Settings"]["User Mode"] = "False";
+                Settings["Settings"]["Usermode"] = "False";
                 SettingsParser.WriteFile(SettingsFile, Settings);
                 #endregion
 
@@ -38,14 +57,9 @@ namespace Mod_Manager_V2.Resources
             #endregion
 
             #region Admin part
-            if (bool.Parse(Settings["Settings"]["First Launch"]) && !bool.Parse(Settings["Settings"]["User Mode"]))
+            if (AdminModeBool() && !bool.Parse(Settings["Settings"]["Usermode"]))
             {
-                CheckForPath.CheckIfFolderExists();
-
-                #region Replace "First Launch" string
-                Settings["Settings"]["First Launch"] = "False";
-                SettingsParser.WriteFile(SettingsFile, Settings);
-                #endregion
+                CheckForPath.InstallPath();
 
                 #region Restart as usermode
                 Process.Start("explorer.exe", ExePath);
@@ -54,5 +68,6 @@ namespace Mod_Manager_V2.Resources
             }
             #endregion
         }
+        #endregion
     }
 }

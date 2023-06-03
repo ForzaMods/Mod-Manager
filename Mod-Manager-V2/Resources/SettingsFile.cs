@@ -22,7 +22,7 @@ namespace Mod_Manager_V2.Resources
 
             if (!OriginalFilesFolderExists) { Directory.CreateDirectory(BaseDirectory + @"\Original Files"); }
 
-            if (!SettingsFileExists) { using (File.Create(SettingsFile)) { } ; SetupSettingsFile(); }
+            if (!SettingsFileExists) { using (File.Create(SettingsFile)) { }; SetupSettingsFile(); }
             #endregion
         }
 
@@ -37,7 +37,6 @@ namespace Mod_Manager_V2.Resources
             #region Setup Settings File
             Settings["Settings"]["Discord Rich Presence"] = "True";
             Settings["Settings"]["Game Install Path"] = "Not Found";
-            Settings["Settings"]["First Launch"] = "True";
             Settings["Settings"]["Usermode"] = "True";
             SettingsParser.WriteFile(SettingsFile, Settings);
             #endregion
