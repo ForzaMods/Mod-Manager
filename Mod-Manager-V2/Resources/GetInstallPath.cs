@@ -10,9 +10,9 @@ namespace Mod_Manager_V2.Resources
 {
     public class CheckForPath
     {
+        #region Get install path string
         public static string GetInstallPath(string packageName)
         {
-            #region Get install path string
             PackageManager packageManager = new PackageManager();
             var packages = packageManager.FindPackages();
             foreach (var package in packageManager.FindPackages())
@@ -23,16 +23,15 @@ namespace Mod_Manager_V2.Resources
                 }
             }
             return null;
-            #endregion
         }
-
+        #endregion
 
         public static void InstallPath()
         {
             #region Check For Path
             dynamic libraryfolders = VdfConvert.Deserialize(File.ReadAllText(@"C:\Program Files (x86)\Steam\steamapps\libraryfolders.vdf"));
-            var installPathSteam = "";
-            string installPathMS = "";
+            string installPathSteam = "nothing";
+            string installPathMS = "nothing";
             foreach (var folder in libraryfolders.Value)
             {
                 if (folder.ToString().Contains("\"1551360\""))
@@ -40,7 +39,7 @@ namespace Mod_Manager_V2.Resources
                     installPathSteam = folder.Value.path.ToString() + @"\steamapps\common\ForzaHorizon5";
                     MessageBox.Show(folder.Value.path.ToString() + @"\steamapps\common\ForzaHorizon5");
                 }
-                if (installPathSteam == "")
+                if (installPathSteam == "nothing")
                 {
                     string packageName = "Microsoft.624F8B84B80_8wekyb3d8bbwe";
                     installPathMS = GetInstallPath(packageName);
@@ -55,9 +54,19 @@ namespace Mod_Manager_V2.Resources
             #endregion
 
             #region Save it to the settings file
-            if (installPathSteam != "") { Settings["Settings"]["Game Install Path"] = installPathSteam; }
-            else { Settings["Settings"]["Game Install Path"] = installPathMS; }
-            SettingsParser.WriteFile(SettingsFile, Settings);
+            try
+            {
+                if (installPathSteam != null && !installPathSteam.Equals("nothing")) { Settings["Settings"]["Game Install Path"] = installPathSteam; }
+                SettingsParser.WriteFile(SettingsFile, Settings);
+            }
+            catch { }
+
+            try
+            {
+                if (installPathMS != null && !installPathMS.Equals("nothing")) { Settings["Settings"]["Game Install Path"] = installPathMS; }
+                SettingsParser.WriteFile(SettingsFile, Settings);
+            }
+            catch { }
             #endregion
         }
 
@@ -67,13 +76,15 @@ namespace Mod_Manager_V2.Resources
             string settingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
             var SettingsParser = new FileIniDataParser();
             IniData Settings = SettingsParser.ReadFile(settingsFile);
-            string value = Settings["Settings"]["Game Install Path"];
-            bool FolderExists = File.Exists(value);
+            string pathvalue = Settings["Settings"]["Game Install Path"];
+            bool FolderExists = File.Exists(pathvalue);
             #endregion
 
-            if(!FolderExists)
+            if(!FolderExists && !pathvalue.Equals("Not Found"))
             {
-                InstallPath();
+                Settings["Settings"]["Usermode"] = "True";
+                SettingsParser.WriteFile(settingsFile, Settings);
+                CheckForAdmin.FirstLaunch();
             }
         }
     }

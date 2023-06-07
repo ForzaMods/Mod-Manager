@@ -35,13 +35,7 @@
             <!-- This is 100% stolen from the AIO V2 because i like it -->
 
             <!-- Settings Icon part -->
-            <Image Source="/Images/Settings.png" Width="21" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 12, 45, 0" OpacityMask="White" Grid.Column="1"/>
-
-            <Rectangle Grid.Column="1" HorizontalAlignment="Right" Height="21" Margin="0,12,45,0" VerticalAlignment="Top" Width="21" MouseDown="Settings_Button" Cursor="Hand">
-                <Rectangle.Fill>
-                    <SolidColorBrush Color="Black" Opacity="0"/>
-                </Rectangle.Fill>
-            </Rectangle>
+            <Image Source="/Images/Settings.png" Width="21" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 12, 45, 0" OpacityMask="White" Grid.Column="1" MouseDown="Settings_Button" Cursor="Hand"/>
             <!-- Settings Icon part -->
         </Grid>
     </Border>

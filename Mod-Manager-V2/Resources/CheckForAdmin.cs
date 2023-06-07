@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace Mod_Manager_V2.Resources
 {
@@ -59,7 +60,7 @@ namespace Mod_Manager_V2.Resources
             #region Admin part
             if (AdminModeBool() && !bool.Parse(Settings["Settings"]["Usermode"]))
             {
-                CheckForPath.InstallPath();
+                Task.Run(() => CheckForPath.InstallPath());
 
                 #region Restart as usermode
                 Process.Start("explorer.exe", ExePath);

@@ -4,7 +4,6 @@ using IniParser.Model;
 using IniParser;
 using MahApps.Metro.Controls;
 using Mod_Manager_V2.Resources;
-using Mod_Manager_V2.Windows;
 using System.Windows.Input;
 
 namespace Mod_Manager_V2
@@ -15,14 +14,12 @@ namespace Mod_Manager_V2
         {
             InitializeComponent();
             SettingsFile.CreateSettingsFile();
-
             #region Path Checking shit
             string ShittySettingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
             var SettingsParser = new FileIniDataParser();
             IniData Settings = SettingsParser.ReadFile(ShittySettingsFile);
             if (!bool.Parse(Settings["Settings"]["Usermode"])) { CheckForPath.CheckIfFolderExists(); } else { CheckForAdmin.FirstLaunch(); }
             #endregion
-
             SettingsFile.CheckForDiscordRPC();
         }
 
@@ -38,13 +35,8 @@ namespace Mod_Manager_V2
 
         private void Exit_Button(object sender, RoutedEventArgs e)
         {
-            foreach (Window window in Application.Current.Windows)
-            {
-                if (window is MainWindow || window is ErrorReporting || window is Settings)
-                {
-                    window.Close();
-                }
-            }
+            // seems to be faster ig?
+            Environment.Exit(1);
         }
 
         private void DraggingFunctionality(object sender, MouseButtonEventArgs e)
