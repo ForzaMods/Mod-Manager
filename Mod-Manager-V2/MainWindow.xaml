@@ -37,6 +37,42 @@
             <!-- Settings Icon part -->
             <Image Source="/Images/Settings.png" Width="21" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 12, 45, 0" OpacityMask="White" Grid.Column="1" MouseDown="Settings_Button" Cursor="Hand"/>
             <!-- Settings Icon part -->
+
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5">
+                    <Button Content="Default"     Click="CategoryButton_Click" Margin="0,0,10,0"/>
+                    <Button Content="Name"        Click="CategoryButton_Click" Margin="0,0,10,0"/>
+                    <Button Content="Version"     Click="CategoryButton_Click" Margin="0,0,10,0"/>
+                    <Button Content="Creator"     Click="CategoryButton_Click" Margin="0,0,10,0"/>
+                    <Button Content="Upload Date" Click="CategoryButton_Click" Margin="0,0,10,0"/>
+                </StackPanel>
+
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Orientation="Vertical">
+                        <ItemsControl ItemsSource="{Binding ModPages}" x:Name="modItemsControl">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="10">
+                                        <StackPanel Orientation="Vertical">
+                                            <Image Source="{Binding ImageLink}" Height="100" Width="100" />
+                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="0,10,0,5" />
+                                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" />
+                                            <TextBlock Text="{Binding Creator}" TextWrapping="Wrap"/>
+                                            <Button Content="Download" HorizontalAlignment="Right" Margin="0,10,0,0"
+                                                    Click="DownloadButton_Click" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </StackPanel>
         </Grid>
     </Border>
 </mah:MetroWindow>
