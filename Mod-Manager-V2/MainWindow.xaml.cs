@@ -6,14 +6,17 @@ using System.Windows.Input;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
+using System.Net;
 
 namespace Mod_Manager_V2
 {
     public partial class MainWindow : MetroWindow
     {
         private ModPageParser modPageParser;
-
         public List<ModPage> modPages { get; set; }
+        public static MainWindow mw;
+        // Added this as test
+        public static string BaseDirectory = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager";
 
         public MainWindow()
         {
@@ -28,6 +31,7 @@ namespace Mod_Manager_V2
             SettingsFile.CheckForDiscordRPC();
             modPages = new List<ModPage>();
             modPageParser = new ModPageParser();
+            mw = this;
         }
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -60,12 +64,12 @@ namespace Mod_Manager_V2
             // shit doesnt work for some reason?
 
             Button categoryButton = (Button)sender;
-            string? category = categoryButton.Content.ToString();
+            string category = categoryButton.Content.ToString();
             List<ModPage> sortedModPages;
 
             switch (category)
             {
-                case "All":
+                case "Default":
                     sortedModPages = modPages; // no sorting needed, display all mod pages
                     break;
                 case "Name":
@@ -89,13 +93,30 @@ namespace Mod_Manager_V2
             modItemsControl.ItemsSource = sortedModPages;
         }
 
+        #region Downloading (worky yayayayay)
         private void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
             Button downloadButton = (Button)sender;
-            ModPage? modPage = downloadButton.DataContext as ModPage;
+            ModPage modPage = downloadButton.DataContext as ModPage;
 
-            // i will perform the download logic here using the "modpage.filelink"
+            using (WebClient  httpClient = new WebClient())
+            {
+                string url = modPage.FileLink;
+                string filename = getFilename(url);
+                httpClient.DownloadFile(modPage.FileLink, BaseDirectory + "/" + filename);
+            }
 
         }
+
+        // Very nice working string from: https://ourcodeworld.com/articles/read/227/how-to-download-a-webfile-with-csharp-and-show-download-progress-synchronously-and-asynchronously
+        private string getFilename(string hreflink)
+        {
+            Uri uri = new Uri(hreflink);
+
+            string filename = System.IO.Path.GetFileName(uri.LocalPath);
+
+            return filename;
+        }
+        #endregion
     }
 }
