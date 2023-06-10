@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using System.Net;
+using IniParser;
 
 namespace Mod_Manager_V2
 {
@@ -98,6 +99,8 @@ namespace Mod_Manager_V2
         {
             Button downloadButton = (Button)sender;
             ModPage modPage = downloadButton.DataContext as ModPage;
+            string Directory = modPage.Category;
+            string DownloadPath;
 
             using (WebClient  httpClient = new WebClient())
             {

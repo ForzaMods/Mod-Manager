@@ -15,7 +15,7 @@ namespace Mod_Manager_V2.Resources
         public string ImageLink { get; set; }
         public string FileLink { get; set; }
         public string UploadDate { get; set; }
-        public List<string> FilePaths { get; set; }
+        public string Category { get; set; }
     }
 
     public class ModPageParser
