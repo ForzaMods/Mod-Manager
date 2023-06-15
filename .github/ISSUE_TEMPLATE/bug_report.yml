@@ -42,7 +42,7 @@ body:
     validations:
       required: true
   - type: textarea
-    id: issue-description
+    id: reproduce
     attributes:
       label: How to reproduce?
       description: How did it happen?
