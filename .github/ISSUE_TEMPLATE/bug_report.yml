@@ -1,0 +1,50 @@
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Make sure you fill in every section correctly and with as much detail as possible.
+  - type: input
+    id: Tool-Ver
+    attributes:
+      label: What version of the Mod Manager were you running?
+      placeholder: 1.xx
+    validations:
+      required: true
+  - type: dropdown
+    id: Windows
+    attributes:
+      label: Windows
+      description: What windows version were you running
+      options:
+        - W10
+        - W11
+    validations:
+      required: true
+  - type: dropdown
+    id: have-i-checked
+    attributes:
+      label: Have i checked if the bug was reported?
+      description: Did you check in closed issues, if the bug is a known one or no?
+      options:
+        - "Yes"
+        - "No"
+    validations:
+      required: true
+  - type: textarea
+    id: issue-description
+    attributes:
+      label: What is the bug?
+      description: What did you expect to happen and what actually happened? (include images/video where applicable)
+    validations:
+      required: true
+  - type: textarea
+    id: issue-description
+    attributes:
+      label: How to reproduce?
+      description: How did it happen?
+    validations:
+      required: true
