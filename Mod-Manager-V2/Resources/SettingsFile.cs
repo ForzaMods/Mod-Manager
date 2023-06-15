@@ -7,10 +7,12 @@ namespace Mod_Manager_V2.Resources
 {
     internal class SettingsFile
     {
+        public static string BaseDirectory;
+
         public static void CreateSettingsFile()
         {
             #region Strings And Bools
-            string BaseDirectory = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager";
+            BaseDirectory = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager";
             string SettingsFile = BaseDirectory + @"\Settings.ini";
             bool MainFolderExists = File.Exists(BaseDirectory);
             bool OriginalFilesFolderExists = File.Exists(BaseDirectory + @"\Original Files");
@@ -48,6 +50,8 @@ namespace Mod_Manager_V2.Resources
             string SettingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
             var SettingsParser = new FileIniDataParser();
             IniData Settings = SettingsParser.ReadFile(SettingsFile);
+            string pathvalue = Settings["Settings"]["Game Install Path"];
+            MainWindow.BaseDirectory = pathvalue;
             #endregion
 
             #region Parse Settings File

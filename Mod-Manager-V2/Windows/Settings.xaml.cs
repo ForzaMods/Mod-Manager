@@ -4,6 +4,8 @@ using IniParser.Model;
 using IniParser;
 using MahApps.Metro.Controls;
 using Mod_Manager_V2.Resources;
+using System.IO;
+using System.Windows.Input;
 
 namespace Mod_Manager_V2.Windows
 {
@@ -54,5 +56,26 @@ namespace Mod_Manager_V2.Windows
             }
         }
 
+        private void RevertCRS_Click(object sender, RoutedEventArgs e)
+        {
+            var RenderScenariosPath = MainWindow.BaseDirectory + @"\media\RenderScenarios.zip";
+            if (File.Exists(SettingsFile.BaseDirectory + @"\Original Files\RenderScenarios.zip")) { File.Copy(SettingsFile.BaseDirectory + @"\Original Files\RenderScenarios.zip", RenderScenariosPath); }
+            else if (!File.Exists(SettingsFile.BaseDirectory + @"\Original Files\RenderScenarios.zip"))
+            {
+                Hide();
+                ErrorReportingVariables.ErrorReportingWindow.ErrorCode.Content = "Stock not found, do you wanna download?";
+                ErrorReportingVariables.ErrorReportingWindow.Install.Visibility = Visibility.Visible;
+                ErrorReportingVariables.ErrorReportingWindow.Show();
+                ErrorReporting.InstallInt = 2;
+            }
+        }
+
+        private void TitleLabel_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
     }
 }

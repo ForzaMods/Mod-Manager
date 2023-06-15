@@ -45,6 +45,7 @@
                     <Button Content="Version"     Click="CategoryButton_Click" Margin="0,0,10,0"/>
                     <Button Content="Creator"     Click="CategoryButton_Click" Margin="0,0,10,0"/>
                     <Button Content="Upload Date" Click="CategoryButton_Click" Margin="0,0,10,0"/>
+                    <Button Content="Installed" Click="CategoryButton_Click" Margin="0,0,10,0"/>
                 </StackPanel>
 
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -69,6 +70,7 @@
                                                 <Run Text="{Binding UploadDate}" />
                                             </TextBlock>
                                             <TextBlock Text="{Binding Description}" TextWrapping="Wrap" />
+                                            <TextBlock Text="{Binding Installed}" TextWrapping="Wrap" />
                                             <Button Content="Download" HorizontalAlignment="Right" Margin="0,10,0,0"
                                                     Click="DownloadButton_Click" />
                                         </StackPanel>

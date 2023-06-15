@@ -8,16 +8,16 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Net;
 using IniParser;
+using Mod_Manager_V2.Windows;
 
 namespace Mod_Manager_V2
 {
     public partial class MainWindow : MetroWindow
     {
         private ModPageParser modPageParser;
-        public List<ModPage> modPages { get; set; }
+        public List<ModPage> ModPages { get; set; }
         public static MainWindow mw;
-        // Added this as test
-        public static string BaseDirectory = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager";
+        public static string BaseDirectory;
 
         public MainWindow()
         {
@@ -30,7 +30,7 @@ namespace Mod_Manager_V2
             if (!bool.Parse(Settings["Settings"]["Usermode"])) { CheckForPath.CheckIfFolderExists(); } else { CheckForAdmin.FirstLaunch(); }*/
             #endregion
             SettingsFile.CheckForDiscordRPC();
-            modPages = new List<ModPage>();
+            ModPages = new List<ModPage>();
             modPageParser = new ModPageParser();
             mw = this;
         }
@@ -71,44 +71,66 @@ namespace Mod_Manager_V2
             switch (category)
             {
                 case "Default":
-                    sortedModPages = modPages; // no sorting needed, display all mod pages
+                    sortedModPages = ModPages; // no sorting needed, display all mod pages
                     break;
                 case "Name":
-                    sortedModPages = modPages.OrderBy(m => m.Name).ToList(); // sort by name
+                    sortedModPages = ModPages.OrderBy(m => m.Name).ToList(); // sort by name
                     break;
                 case "Version":
-                    sortedModPages = modPages.OrderBy(m => m.Version).ToList(); // sort by version
+                    sortedModPages = ModPages.OrderBy(m => m.Version).ToList(); // sort by version
                     break;
                 case "Creator":
-                    sortedModPages = modPages.OrderBy(m => m.Creator).ToList(); // sort by creator
+                    sortedModPages = ModPages.OrderBy(m => m.Creator).ToList(); // sort by creator
                     break;
                 case "Upload Date":
-                    sortedModPages = modPages.OrderBy(m => DateTime.Parse(m.UploadDate)).ToList(); // sort by upload date
+                    sortedModPages = ModPages.OrderBy(m => DateTime.Parse(m.UploadDate)).ToList(); // sort by upload date
+                    break;
+                case "Installed":
+                    sortedModPages = ModPages.OrderBy(m => m.IsCRSRequired).ToList(); // this does fuck all rn and is just to compile
                     break;
                 default:
-                    sortedModPages = modPages; // needs to be here or the updating fucks itself and default sorting is killed
+                    sortedModPages = ModPages; // needs to be here or the updating fucks itself and default sorting is killed
                     break;
             }
 
-            // update the items of the items to display the sorted mod pages
+            // update the items of the itemscontrol to display the sorted mod pages
             modItemsControl.ItemsSource = sortedModPages;
         }
 
-        #region Downloading (worky yayayayay)
+        #region Downloading
         private void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
             Button downloadButton = (Button)sender;
-            ModPage modPage = downloadButton.DataContext as ModPage;
-            string Directory = modPage.Category;
-            string DownloadPath;
+            ModPage? modPage = downloadButton.DataContext as ModPage;
+            var Category = modPage.Category;
+            var DownloadPath = "";
 
-            using (WebClient  httpClient = new WebClient())
+            if (BaseDirectory != "Not Found")
             {
-                string url = modPage.FileLink;
-                string filename = getFilename(url);
-                httpClient.DownloadFile(modPage.FileLink, BaseDirectory + "/" + filename);
-            }
+                if (Category == "Car") { DownloadPath = BaseDirectory + @"\media\stripped\mediaoverride\rc0\cars"; }
+                if (Category == "LibraryFolder") { DownloadPath = BaseDirectory + @"\media\stripped\mediaoverride\rc0\cars\_library"; }
+                if (Category == "Else") { DownloadPath = BaseDirectory + modPage.FilePath; }
 
+                using (WebClient httpClient = new WebClient())
+                {
+                    string? url = modPage.FileLink;
+                    string? filename = getFilename(url);
+                    httpClient.DownloadFile(url, DownloadPath + "/" + filename);
+                    if (modPage.IsCRSRequired)
+                    {
+                        ErrorReportingVariables.ErrorReportingWindow.ErrorCode.Content = "This mod requires CRS. Do you wanna install?";
+                        ErrorReportingVariables.ErrorReportingWindow.Install.Visibility = Visibility.Visible;
+                        ErrorReporting.InstallInt = 1;
+                        ErrorReportingVariables.ErrorReportingWindow.Show();
+                    }
+                }
+            }
+            else if (BaseDirectory == "Not Found")
+            {
+                ErrorReportingVariables.ErrorReportingWindow.ErrorCode.Content = "Path not found, cannot install";
+                ErrorReportingVariables.ErrorReportingWindow.PathButton.Visibility = Visibility.Visible;
+                ErrorReportingVariables.ErrorReportingWindow.Show();
+            }
         }
 
         // Very nice working string from: https://ourcodeworld.com/articles/read/227/how-to-download-a-webfile-with-csharp-and-show-download-progress-synchronously-and-asynchronously
