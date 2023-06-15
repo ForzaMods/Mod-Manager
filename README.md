@@ -54,3 +54,5 @@ For any support, go to the [Forza Mods Discord Server](https://discord.gg/forzam
 ## Additional Info
 
 Readme was generated using OpenAI Technology, and modified to fit our needs
+
+How do i get my mod added? Follow the [Mod Add Request](ModAddRequest.md) guide
