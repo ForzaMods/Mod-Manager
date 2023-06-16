@@ -12,6 +12,12 @@
     <Border Background="#3d3d3d" 
             CornerRadius="30" BorderThickness="5" BorderBrush="#1d1d1d">
         <Grid>
+            <StackPanel Orientation="Horizontal" Margin="0, 40" VerticalAlignment="Top">
+                <Button x:Name="Mainsettings" Content="Main settings page" Height="35" Width="195" Click="Mainsettings_Click"/>
+                <Button x:Name="Pathsettings" Content="Path settings page" Height="35" Width="195" Click="Pathsettings_Click"/>
+            </StackPanel>
+            <Frame x:Name="Mainsettingsframe" Height="365" VerticalAlignment="Bottom" Source="../Resources/Pages/Main.xaml" Visibility="Visible"/>
+            <Frame x:Name="Pathsettingsframe" Height="365" VerticalAlignment="Bottom" Source="../Resources/Pages/Path.xaml" Visibility="Hidden"/>
             <!-- Credits to ChrisF from https://stackoverflow.com/questions/1697413/wpf-rectangle-round-just-top-corners for this method -->
             <Border Grid.Row="0" Grid.ColumnSpan="2"
                     CornerRadius="25,25,0,0" Background="#2d2d2d"
@@ -19,8 +25,6 @@
             </Border>
 
             <Label x:Name="TitleLabel" Content="Settings" Margin="16, 0" Height="40" VerticalAlignment="Top" Foreground="White" FontSize="21" MouseDown="TitleLabel_MouseDown"/>
-            <TextBlock Text="Special Thanks to:" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Top" Height="35" FontSize="16" Margin="15, 47"/>
-            <TextBlock Text="Draff - Forza path getting" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Top" Height="35" FontSize="13" Margin="15, 70"/>
 
             <!-- This is 100% stolen from the AIO V2 because i like it -->
             <Path Data="M259.7625 259.7625A9.375 9.375 0 0 0 259.7625 246.4875L53.5125 40.2375A9.375 9.375 0 0 0 40.2375 53.5125L246.4875 259.7625000000001A9.375 9.375 0 0 0 259.7625 259.7625000000001zM40.2375 259.7625A9.375 9.375 0 0 1 40.2375 246.4875L246.4875 40.2375A9.375 9.375 0 0 1 259.7625000000001 53.5125L53.5125 259.7625000000001A9.375 9.375 0 0 1 40.2375 259.7625000000001z"
@@ -35,8 +39,6 @@
             </Rectangle>
             <!-- This is 100% stolen from the AIO V2 because i like it -->
 
-            <mah:ToggleSwitch x:Name="DiscordRPC" Content="Discord Rich Presence" Foreground="White" Toggled="DiscordRPCButton_Toggled" Margin="10,-315,0,0"/>
-            <Button x:Name="RevertCRS" Content="Revert back to stock renderscenarios" Height="35" Click="RevertCRS_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="15" />
         </Grid>
     </Border>
 </mah:MetroWindow>

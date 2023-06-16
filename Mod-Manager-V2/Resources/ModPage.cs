@@ -22,7 +22,7 @@ namespace Mod_Manager_V2.Resources
 
     public class ModPageParser
     {
-        private const string rawUrl = "https://cdn.discordapp.com/attachments/555877092731125820/1119000968252620821/test.json";
+        private const string rawUrl = "https://cdn.discordapp.com/attachments/555877092731125820/1119000968252620821/test.json"; 
 
         public async Task<List<ModPage>> ParseModPagesFromGitHub()
         {

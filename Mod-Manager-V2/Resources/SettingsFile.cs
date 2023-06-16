@@ -57,7 +57,7 @@ namespace Mod_Manager_V2.Resources
             #region Parse Settings File
             if (Settings["Settings"]["Discord Rich Presence"].ToString() == "True")
             {
-                try { DiscordRichPresence.RPCInitialize(); SettingsVariables.SettingsWindow.DiscordRPC.IsOn = true; }
+                try { DiscordRichPresence.RPCInitialize(); SettingsVariables.SettingsPage.DiscordRPC.IsOn = true; }
                 catch (Exception ex) { ErrorReportingVariables.ErrorReportingWindow.ErrorCode.Content = ex.Message; ErrorReportingVariables.ErrorReportingWindow.Show(); }
             }
             #endregion
