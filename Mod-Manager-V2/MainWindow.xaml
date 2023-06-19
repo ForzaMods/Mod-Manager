@@ -8,10 +8,9 @@
         Title="Forza Mod Manager" Height="600" Width="1200"
         Background="Transparent" AllowsTransparency="True" BorderThickness="0"
         ResizeMode="NoResize" ShowTitleBar="False" ShowCloseButton="False" WindowStyle="None"
-        AllowDrop="True" Loaded="MainWindow_Loaded">
+        AllowDrop="True">
 
-    <Border x:Name="Background" Background="#3d3d3d" 
-            CornerRadius="30" BorderThickness="5" BorderBrush="#1d1d1d">
+    <Border x:Name="Background" Background="#3d3d3d" CornerRadius="30">
         <Grid>
             <!-- Credits to ChrisF from https://stackoverflow.com/questions/1697413/wpf-rectangle-round-just-top-corners for this method -->
             <Border Grid.Row="0" Grid.ColumnSpan="2"
@@ -19,68 +18,86 @@
                     Height="40" VerticalAlignment="Top" MouseDown="DraggingFunctionality">
             </Border>
 
-            <Label Content="Forza Mod Manager" Margin="16, 0" Height="40" VerticalAlignment="Top" Foreground="White" FontSize="21" MouseDown="DraggingFunctionality"/>
+            <Label Content="Forza Mod Manager" Margin="16, 0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="White" FontSize="21" MouseDown="DraggingFunctionality"/>
 
+            <!--#region Buttons-->
             <!-- This is 100% stolen from the AIO V2 because i like it -->
-            <Path Data="M259.7625 259.7625A9.375 9.375 0 0 0 259.7625 246.4875L53.5125 40.2375A9.375 9.375 0 0 0 40.2375 53.5125L246.4875 259.7625000000001A9.375 9.375 0 0 0 259.7625 259.7625000000001zM40.2375 259.7625A9.375 9.375 0 0 1 40.2375 246.4875L246.4875 40.2375A9.375 9.375 0 0 1 259.7625000000001 53.5125L53.5125 259.7625000000001A9.375 9.375 0 0 1 40.2375 259.7625000000001z"
+            <Path x:Name="CloseButton"
+                  Data="M259.7625 259.7625A9.375 9.375 0 0 0 259.7625 246.4875L53.5125 40.2375A9.375 9.375 0 0 0 40.2375 53.5125L246.4875 259.7625000000001A9.375 9.375 0 0 0 259.7625 259.7625000000001zM40.2375 259.7625A9.375 9.375 0 0 1 40.2375 246.4875L246.4875 40.2375A9.375 9.375 0 0 1 259.7625000000001 53.5125L53.5125 259.7625000000001A9.375 9.375 0 0 1 40.2375 259.7625000000001z"
                   Fill="White" Stretch="Fill"
                   Width="20" Height="20"
-                  Margin="0,12.5,16,0" Grid.Column="1" Focusable="False" HorizontalAlignment="Right" VerticalAlignment="Top" 
-            />
-            <Rectangle Grid.Column="1" HorizontalAlignment="Right" Height="20" Margin="0,12.5,16,0" VerticalAlignment="Top" Width="20" MouseDown="Exit_Button" Cursor="Hand">
+                  Margin="0,12,20,0" Focusable="False" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+
+            <Rectangle HorizontalAlignment="Right" Height="20" Margin="0,12,20,0" VerticalAlignment="Top" Width="20" MouseDown="CloseButton_MouseDown" Cursor="Hand">
                 <Rectangle.Fill>
                     <SolidColorBrush Color="Black" Opacity="0"/>
                 </Rectangle.Fill>
             </Rectangle>
             <!-- This is 100% stolen from the AIO V2 because i like it -->
 
-            <!-- Settings Icon part -->
-            <Image Source="/Images/Settings.png" Width="21" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 12, 45, 0" OpacityMask="White" Grid.Column="1" MouseDown="Settings_Button" Cursor="Hand"/>
-            <!-- Settings Icon part -->
+            <Image Source="/Resources/Images/Settings.png" Width="21" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 12, 45, 0" OpacityMask="White" Grid.Column="1" MouseDown="Settings_Button" Cursor="Hand"/>
 
+            <Path x:Name="HomeButton"
+                  Stroke="White"
+                  StrokeThickness="2"
+                  Width="24"
+                  Height="24"
+                  Data="M12,20H6V12H3L12,3L21,12H18V20H12Z" Margin="1105,10,71,566"/>
+
+            <Rectangle HorizontalAlignment="Right" Height="20" Margin="0,12,72,0" VerticalAlignment="Top" Width="22" MouseDown="HomeButton_MouseDown" Cursor="Hand">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="Black" Opacity="0"/>
+                </Rectangle.Fill>
+            </Rectangle>
+
+        
             <StackPanel Orientation="Vertical">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5">
-                    <Button Content="Default"     Click="CategoryButton_Click" Margin="0,0,10,0"/>
-                    <Button Content="Name"        Click="CategoryButton_Click" Margin="0,0,10,0"/>
-                    <Button Content="Version"     Click="CategoryButton_Click" Margin="0,0,10,0"/>
-                    <Button Content="Creator"     Click="CategoryButton_Click" Margin="0,0,10,0"/>
-                    <Button Content="Upload Date" Click="CategoryButton_Click" Margin="0,0,10,0"/>
-                    <Button Content="Installed" Click="CategoryButton_Click" Margin="0,0,10,0"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 8" x:Name="SortingButtons">
+                    <Button Content="Default"     Click="CategoryButton_Click" Margin="0,0,10,0" Focusable="False" BorderThickness="0" Background="#3f3f3f"/>
+                    <Button Content="Name"        Click="CategoryButton_Click" Margin="0,0,10,0" Focusable="False" BorderThickness="0" Background="#3f3f3f"/>
+                    <Button Content="Version"     Click="CategoryButton_Click" Margin="0,0,10,0" Focusable="False" BorderThickness="0" Background="#3f3f3f"/>
+                    <Button Content="Creator"     Click="CategoryButton_Click" Margin="0,0,10,0" Focusable="False" BorderThickness="0" Background="#3f3f3f"/>
+                    <Button Content="Upload Date" Click="CategoryButton_Click" Margin="0,0,10,0" Focusable="False" BorderThickness="0" Background="#3f3f3f"/>
+                    <Button Content="Installed"   Click="CategoryButton_Click" Margin="0,0,10,0" Focusable="False" BorderThickness="0" Background="#3f3f3f"/>
                 </StackPanel>
-
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Orientation="Vertical">
-                        <ItemsControl ItemsSource="{Binding modPages}" x:Name="modItemsControl">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="10">
-                                        <StackPanel Orientation="Vertical">
-                                            <Image Source="{Binding ImageLink}" Height="100" Width="100" />
-                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="0,10,0,5" />
-                                            <TextBlock FontStyle="Italic" FontSize="14" FontWeight="SemiBold">
-                                                <Run Text="{Binding Version}" />
-                                                <Run Text=" - " />
-                                                <Run Text="{Binding Creator}" />
-                                                <Run Text=" - " />
-                                                <Run Text="{Binding UploadDate}" />
-                                            </TextBlock>
-                                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" />
-                                            <TextBlock Text="{Binding Installed}" TextWrapping="Wrap" />
-                                            <Button Content="Download" HorizontalAlignment="Right" Margin="0,10,0,0"
-                                                    Click="DownloadButton_Click" />
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </StackPanel>
-                </ScrollViewer>
             </StackPanel>
+            <!--#endregion-->
+            <!--#region Mod pages, frames-->
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,40,0,20" x:Name="MWModPages">
+                <StackPanel Orientation="Vertical">
+                    <ItemsControl ItemsSource="{Binding modPages}" x:Name="modItemsControl">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="10">
+                                    <StackPanel Orientation="Vertical">
+                                        <Image Source="{Binding ImageLink}" Height="100" Width="100" />
+                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="0,10,0,5" />
+                                        <TextBlock FontStyle="Italic" FontSize="14" FontWeight="SemiBold">
+                                            <Run Text="{Binding Version}" />
+                                            <Run Text=" - " />
+                                            <Run Text="{Binding Creator}" />
+                                            <Run Text=" - " />
+                                            <Run Text="{Binding UploadDate}" />
+                                        </TextBlock>
+                                        <TextBlock Text="{Binding Description}" TextWrapping="Wrap" />
+                                        <TextBlock Text="{Binding Installed}" TextWrapping="Wrap" />
+                                        <Button Content="Download" HorizontalAlignment="Right" Margin="0,10,0,0"
+                                                Click="DownloadButton_Click" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+
+            <Frame x:Name="SettingsFrame" Source="/PagesAndWindows/Settings.xaml" Visibility="Hidden" Margin="0,40,0,20"/>
+            <!--#endregion-->
         </Grid>
     </Border>
 </mah:MetroWindow>

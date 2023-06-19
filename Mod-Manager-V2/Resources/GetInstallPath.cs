@@ -48,7 +48,7 @@ namespace Mod_Manager_V2.Resources
             #endregion
 
             #region Strings for settings file
-            string SettingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
+            string SettingsFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Forza Mod Manager\Settings.ini";
             var SettingsParser = new FileIniDataParser();
             IniData Settings = SettingsParser.ReadFile(SettingsFile);
             #endregion
@@ -73,7 +73,7 @@ namespace Mod_Manager_V2.Resources
         public static void CheckIfFolderExists()
         {
             #region Settings stuff
-            string settingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
+            string settingsFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Forza Mod Manager\Settings.ini";
             var SettingsParser = new FileIniDataParser();
             IniData Settings = SettingsParser.ReadFile(settingsFile);
             string pathvalue = Settings["Settings"]["Game Install Path"];

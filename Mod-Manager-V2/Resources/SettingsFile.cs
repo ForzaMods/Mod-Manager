@@ -1,18 +1,21 @@
 ﻿using System;
 using System.IO;
+using System.Windows;
 using IniParser;
 using IniParser.Model;
+using Mod_Manager_V2.PagesAndWindows;
 
 namespace Mod_Manager_V2.Resources
 {
     internal class SettingsFile
     {
-        public static string BaseDirectory;
+        public static string? BaseDirectory;
+        internal static readonly Settings settingsPage = new Settings();
 
         public static void CreateSettingsFile()
         {
             #region Strings And Bools
-            BaseDirectory = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager";
+            BaseDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Forza Mod Manager";
             string SettingsFile = BaseDirectory + @"\Settings.ini";
             bool MainFolderExists = File.Exists(BaseDirectory);
             bool OriginalFilesFolderExists = File.Exists(BaseDirectory + @"\Original Files");
@@ -31,7 +34,7 @@ namespace Mod_Manager_V2.Resources
         public static void SetupSettingsFile()
         {
             #region Strings and vars
-            string SettingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
+            string SettingsFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Forza Mod Manager\Settings.ini";
             var SettingsParser = new FileIniDataParser();
             IniData Settings = new IniData();
             #endregion
@@ -47,18 +50,22 @@ namespace Mod_Manager_V2.Resources
         public static void CheckForDiscordRPC()
         {
             #region Strings and bools
-            string SettingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
+            string SettingsFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Forza Mod Manager\Settings.ini";
             var SettingsParser = new FileIniDataParser();
             IniData Settings = SettingsParser.ReadFile(SettingsFile);
             string pathvalue = Settings["Settings"]["Game Install Path"];
-            MainWindow.BaseDirectory = pathvalue;
+            MainWindow.BaseDir = pathvalue;
             #endregion
 
             #region Parse Settings File
             if (Settings["Settings"]["Discord Rich Presence"].ToString() == "True")
             {
-                try { DiscordRichPresence.RPCInitialize(); SettingsVariables.SettingsPage.DiscordRPC.IsOn = true; }
-                catch (Exception ex) { ErrorReportingVariables.ErrorReportingWindow.ErrorCode.Content = ex.Message; ErrorReportingVariables.ErrorReportingWindow.Show(); }
+                try 
+                { 
+                    DiscordRichPresence.RPCInitialize(); 
+                    settingsPage.DiscordRPC.IsOn = true; 
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
             }
             #endregion
         }

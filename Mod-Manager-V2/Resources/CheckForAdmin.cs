@@ -32,7 +32,7 @@ namespace Mod_Manager_V2.Resources
         {
             #region Settings stuff, and vars for the shit
             var ExePath = Environment.ProcessPath;
-            string SettingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
+            string SettingsFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Forza Mod Manager\Settings.ini";
             var SettingsParser = new FileIniDataParser();
             IniData Settings = SettingsParser.ReadFile(SettingsFile);
             #endregion

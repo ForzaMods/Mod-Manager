@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using System.Net;
-using IniParser;
 using Mod_Manager_V2.Windows;
 
 namespace Mod_Manager_V2
@@ -15,81 +14,70 @@ namespace Mod_Manager_V2
     public partial class MainWindow : MetroWindow
     {
         private ModPageParser modPageParser;
-        public List<ModPage> ModPages { get; set; }
+        public List<ModPage> modPages { get; set; }
         public static MainWindow mw;
-        public static string BaseDirectory;
+        public static string BaseDir;
+        static ErrorReporting errorReporting = new ErrorReporting();
 
         public MainWindow()
         {
             InitializeComponent();
-            SettingsFile.CreateSettingsFile();
             #region Path Checking shit
             /*string ShittySettingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
             var SettingsParser = new FileIniDataParser();
             IniData Settings = SettingsParser.ReadFile(ShittySettingsFile);
             if (!bool.Parse(Settings["Settings"]["Usermode"])) { CheckForPath.CheckIfFolderExists(); } else { CheckForAdmin.FirstLaunch(); }*/
             #endregion
+            SettingsFile.CreateSettingsFile();
             SettingsFile.CheckForDiscordRPC();
-            ModPages = new List<ModPage>();
+            modPages = new List<ModPage>();
             modPageParser = new ModPageParser();
+            GetModPages();
             mw = this;
         }
 
-        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private async void GetModPages()
         {
-            List<ModPage> modPages = await modPageParser.ParseModPagesFromGitHub();
+            modPages = await modPageParser.ParseModPagesFromGitHub();
             modItemsControl.ItemsSource = modPages;
-        }
-
-        private void Settings_Button(object sender, RoutedEventArgs e)
-        {
-            if (!SettingsVariables.SettingsStatus) { SettingsVariables.SettingsWindow.Show(); SettingsVariables.SettingsStatus = true; }
-        }
-
-        private void Exit_Button(object sender, RoutedEventArgs e)
-        {
-            // seems to be faster ig?
-            Environment.Exit(1);
         }
 
         private void DraggingFunctionality(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
             {
-                this.DragMove();
+                DragMove();
             }
         }
 
         private void CategoryButton_Click(object sender, RoutedEventArgs e)
         {
-            // shit doesnt work for some reason?
-
             Button categoryButton = (Button)sender;
-            string category = categoryButton.Content.ToString();
+            string? category = categoryButton.Content.ToString();
             List<ModPage> sortedModPages;
 
             switch (category)
             {
                 case "Default":
-                    sortedModPages = ModPages; // no sorting needed, display all mod pages
+                    sortedModPages = modPages; // no sorting needed, display all mod pages
                     break;
                 case "Name":
-                    sortedModPages = ModPages.OrderBy(m => m.Name).ToList(); // sort by name
+                    sortedModPages = modPages.OrderBy(m => m.Name).ToList(); // sort by name
                     break;
                 case "Version":
-                    sortedModPages = ModPages.OrderBy(m => m.Version).ToList(); // sort by version
+                    sortedModPages = modPages.OrderBy(m => m.Version).ToList(); // sort by version
                     break;
                 case "Creator":
-                    sortedModPages = ModPages.OrderBy(m => m.Creator).ToList(); // sort by creator
+                    sortedModPages = modPages.OrderBy(m => m.Creator).ToList(); // sort by creator
                     break;
                 case "Upload Date":
-                    sortedModPages = ModPages.OrderBy(m => DateTime.Parse(m.UploadDate)).ToList(); // sort by upload date
+                    sortedModPages = modPages.OrderBy(m => m.UploadDate).ToList(); // sort by upload date
                     break;
                 case "Installed":
-                    sortedModPages = ModPages.OrderBy(m => m.IsCRSRequired).ToList(); // this does fuck all rn and is just to compile
+                    sortedModPages = modPages.OrderBy(m => m.IsCRSRequired).ToList(); // this does fuck all rn and is just to compile
                     break;
                 default:
-                    sortedModPages = ModPages; // needs to be here or the updating fucks itself and default sorting is killed
+                    sortedModPages = modPages; // needs to be here or the updating fucks itself and default sorting is killed
                     break;
             }
 
@@ -105,11 +93,11 @@ namespace Mod_Manager_V2
             var Category = modPage.Category;
             var DownloadPath = "";
 
-            if (BaseDirectory != "Not Found")
+            if (BaseDir != "Not Found")
             {
-                if (Category == "Car") { DownloadPath = BaseDirectory + @"\media\stripped\mediaoverride\rc0\cars"; }
-                if (Category == "LibraryFolder") { DownloadPath = BaseDirectory + @"\media\stripped\mediaoverride\rc0\cars\_library"; }
-                if (Category == "Else") { DownloadPath = BaseDirectory + modPage.FilePath; }
+                if (Category == "Car") { DownloadPath = BaseDir + @"\media\stripped\mediaoverride\rc0\cars"; }
+                if (Category == "LibraryFolder") { DownloadPath = BaseDir + @"\media\stripped\mediaoverride\rc0\cars\_library"; }
+                if (Category == "Else") { DownloadPath = BaseDir + modPage.FilePath; }
 
                 using (WebClient httpClient = new WebClient())
                 {
@@ -118,18 +106,18 @@ namespace Mod_Manager_V2
                     httpClient.DownloadFile(url, DownloadPath + "/" + filename);
                     if (modPage.IsCRSRequired)
                     {
-                        ErrorReportingVariables.ErrorReportingWindow.ErrorCode.Content = "This mod requires CRS. Do you wanna install?";
-                        ErrorReportingVariables.ErrorReportingWindow.Install.Visibility = Visibility.Visible;
-                        ErrorReporting.InstallInt = 1;
-                        ErrorReportingVariables.ErrorReportingWindow.Show();
+                        errorReporting.ErrorCode.Content = "This mod requires CRS. Do you wanna install?";
+                        errorReporting.Install.Visibility = Visibility.Visible;
+                        errorReporting.CRS = true;
+                        errorReporting.Show();
                     }
                 }
             }
-            else if (BaseDirectory == "Not Found")
+            else if (BaseDir == "Not Found")
             {
-                ErrorReportingVariables.ErrorReportingWindow.ErrorCode.Content = "Path not found, cannot install";
-                ErrorReportingVariables.ErrorReportingWindow.PathButton.Visibility = Visibility.Visible;
-                ErrorReportingVariables.ErrorReportingWindow.Show();
+                errorReporting.ErrorCode.Content = "Path not found, cannot install";
+                errorReporting.PathButton.Visibility = Visibility.Visible;
+                errorReporting.Show();
             }
         }
 
@@ -143,5 +131,27 @@ namespace Mod_Manager_V2
             return filename;
         }
         #endregion
+
+        private void HomeButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            SettingsFrame.Visibility = Visibility.Hidden;
+            MWModPages.Visibility = Visibility.Visible;
+            SortingButtons.Visibility = Visibility.Visible;
+        }
+
+        private void Settings_Button(object sender, RoutedEventArgs e)
+        {
+            SettingsFrame.Visibility = Visibility.Visible;
+            MWModPages.Visibility = Visibility.Hidden;
+            SortingButtons.Visibility = Visibility.Hidden;
+        }
+
+        private void CloseButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                Environment.Exit(1);
+            }
+        }
     }
 }

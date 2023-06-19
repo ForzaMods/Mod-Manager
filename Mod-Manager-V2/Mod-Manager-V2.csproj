@@ -13,7 +13,7 @@
     <FileVersion>2.0.0.0</FileVersion>
     <Company>$(Authors)</Company>
     <Authors>$(AssemblyName)</Authors>
-    <ApplicationIcon>Images\Icon.ico</ApplicationIcon>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -25,11 +25,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\Settings.png" />
+    <None Remove="Resources\Images\Settings.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Images\Icon.ico" />
+    <Content Include="Icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,7 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\Settings.png" />
+    <Resource Include="Resources\Images\Settings.png" />
   </ItemGroup>
 
 </Project>
