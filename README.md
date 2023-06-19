@@ -23,7 +23,7 @@ A: The mod manager is designed to work with a specific version of the Forza game
 
 **Q: How can I report issues or suggest improvements for the mod manager?**
 
-A: Please make an issue with the `feature request` template. We value user feedback
+A: Please make an issue with the `bug` or `feature request` template. We value user feedback
 
 ## Contributing
 
