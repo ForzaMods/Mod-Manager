@@ -23,6 +23,18 @@
         "FileLink": "https://example.com/mod1.zip",
         "UploadDate": "30/01/2011",
         "FilePath": ""
+      },
+        {
+        "Id": 3,
+        "IsCRSRequired" : "True",
+        "Name": "bb",
+        "Version": "1.0",
+        "Creator": "fatcock#12b4",
+        "Description": "This is Mod 1",
+        "ImageLink": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.readersdigest.ca%2Fwp-content%2Fuploads%2F2019%2F11%2Fcat-10-e1573844975155.jpg&f=1&nofb=1&ipt=38c2a3a9ca86eb6a231b3839c7e1668636dd79392cde7193f0b5fa34d487ff08&ipo=images",
+        "FileLink": "https://example.com/mod1.zip",
+        "UploadDate": "30/01/2011",
+        "FilePath": ""
       }
     ]
   }
