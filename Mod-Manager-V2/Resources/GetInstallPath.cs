@@ -80,7 +80,7 @@ namespace Mod_Manager_V2.Resources
             bool FolderExists = File.Exists(pathvalue);
             #endregion
 
-            if(!FolderExists && !pathvalue.Equals("Not Found"))
+            if(!FolderExists && pathvalue != "Not Found"))
             {
                 Settings["Settings"]["Usermode"] = "True";
                 SettingsParser.WriteFile(settingsFile, Settings);

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace Mod_Manager_V2.Resources
 {
@@ -18,6 +19,11 @@ namespace Mod_Manager_V2.Resources
         public string? UploadDate { get; set; }
         public string? Category { get; set; }
         public string? FilePath { get; set; } // this isnt actually necessary because used only if category is else
+    }
+
+    public class DownloadedModsPage
+    {
+        public int Id { get; set; }
     }
 
     public class ModPageParser
@@ -47,6 +53,15 @@ namespace Mod_Manager_V2.Resources
                     return string.Empty;
                 }
             }
+        }
+
+        public Task<List<DownloadedModsPage>> ParseModPagesFromLocalJson()
+        {
+            var Json = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Forza Mod Manager\Downloaded.json";
+            JObject jsonObject = JObject.Parse(Json);
+            JArray modsArray = (JArray)jsonObject["DownloadedMods"];
+            List<ModPage> modPages = modsArray.ToObject<List<DownloadedModsPage>>();
+            return modPages;
         }
     }
 }

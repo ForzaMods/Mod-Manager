@@ -8,6 +8,8 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Net;
 using Mod_Manager_V2.Windows;
+using IniParser;
+using IniParser.Model;
 
 namespace Mod_Manager_V2
 {
@@ -22,13 +24,13 @@ namespace Mod_Manager_V2
         public MainWindow()
         {
             InitializeComponent();
+            SettingsFile.CreateSettingsFile();
             #region Path Checking shit
-            /*string ShittySettingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
+            string ShittySettingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
             var SettingsParser = new FileIniDataParser();
             IniData Settings = SettingsParser.ReadFile(ShittySettingsFile);
-            if (!bool.Parse(Settings["Settings"]["Usermode"])) { CheckForPath.CheckIfFolderExists(); } else { CheckForAdmin.FirstLaunch(); }*/
+            if (Settings["Settings"]["Usermode"] != "True") { CheckForPath.CheckIfFolderExists(); } else { CheckForAdmin.FirstLaunch(); }
             #endregion
-            SettingsFile.CreateSettingsFile();
             SettingsFile.CheckForDiscordRPC();
             modPages = new List<ModPage>();
             modPageParser = new ModPageParser();
