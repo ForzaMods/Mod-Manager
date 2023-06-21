@@ -77,10 +77,9 @@ namespace Mod_Manager_V2.Resources
             var SettingsParser = new FileIniDataParser();
             IniData Settings = SettingsParser.ReadFile(settingsFile);
             string pathvalue = Settings["Settings"]["Game Install Path"];
-            bool FolderExists = File.Exists(pathvalue);
             #endregion
 
-            if(!FolderExists && pathvalue != "Not Found"))
+            if(!File.Exists(pathvalue) && pathvalue != "Not Found")
             {
                 Settings["Settings"]["Usermode"] = "True";
                 SettingsParser.WriteFile(settingsFile, Settings);

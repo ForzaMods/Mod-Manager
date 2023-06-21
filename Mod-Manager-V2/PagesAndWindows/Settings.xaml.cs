@@ -20,6 +20,7 @@ namespace Mod_Manager_V2.PagesAndWindows
         public Settings()
         {
             InitializeComponent();
+            PathChecking();
         }
 
         #region Path for the pirated fellas
@@ -44,7 +45,6 @@ namespace Mod_Manager_V2.PagesAndWindows
 
         void ForzaBGWorker()
         {
-            var IsForzaOpen = false;
             while (true)
             {
                 Process[] process = Process.GetProcessesByName("ForzaHorizon5");
@@ -56,7 +56,6 @@ namespace Mod_Manager_V2.PagesAndWindows
                         ForzaLabel.Foreground = System.Windows.Media.Brushes.Green;
                         PathButton.IsEnabled = true;
                     });
-                    IsForzaOpen = true;
                 }
                 else
                 {
@@ -66,8 +65,6 @@ namespace Mod_Manager_V2.PagesAndWindows
                         ForzaLabel.Foreground = System.Windows.Media.Brushes.Red;
                         PathButton.IsEnabled = false;
                     });
-
-                    IsForzaOpen = false;
                 }
                 Thread.Sleep(1500);
             }

@@ -28,7 +28,7 @@ namespace Mod_Manager_V2.Resources
 
     public class ModPageParser
     {
-        private const string rawUrl = "https://cdn.discordapp.com/attachments/555877092731125820/1119000968252620821/test.json"; 
+        private const string rawUrl = "https://raw.githubusercontent.com/ForzaMods/ModManager/V2/Mods.json?token=GHSAT0AAAAAACC2H7UBNT4HVNSTV25PY7XCZESWAZA"; 
 
         public async Task<List<ModPage>> ParseModPagesFromGitHub()
         {
@@ -60,8 +60,8 @@ namespace Mod_Manager_V2.Resources
             var Json = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Forza Mod Manager\Downloaded.json";
             JObject jsonObject = JObject.Parse(Json);
             JArray modsArray = (JArray)jsonObject["DownloadedMods"];
-            List<ModPage> modPages = modsArray.ToObject<List<DownloadedModsPage>>();
-            return modPages;
+            List<DownloadedModsPage> DownloadedmodPages = modsArray.ToObject<List<DownloadedModsPage>>();
+            return Task.FromResult(DownloadedmodPages);
         }
     }
 }

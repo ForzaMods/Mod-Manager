@@ -15,11 +15,15 @@ namespace Mod_Manager_V2
 {
     public partial class MainWindow : MetroWindow
     {
+        #region variables
         private ModPageParser modPageParser;
         public List<ModPage> modPages { get; set; }
+        public List<DownloadedModsPage> downloadedPages { get; set; }
+        public List<ModPage> sortedModPages { get; set; }
         public static MainWindow mw;
         public static string BaseDir;
         static ErrorReporting errorReporting = new ErrorReporting();
+        #endregion
 
         public MainWindow()
         {
@@ -33,14 +37,22 @@ namespace Mod_Manager_V2
             #endregion
             SettingsFile.CheckForDiscordRPC();
             modPages = new List<ModPage>();
+            downloadedPages = new List<DownloadedModsPage>();
             modPageParser = new ModPageParser();
             GetModPages();
             mw = this;
+            //CategoryButton_Click(new Object(), new RoutedEventArgs());
         }
 
         private async void GetModPages()
         {
             modPages = await modPageParser.ParseModPagesFromGitHub();
+            modItemsControl.ItemsSource = modPages;
+        }
+
+        private async void GetDownloadedModPages()
+        {
+            downloadedPages = await modPageParser.ParseModPagesFromLocalJson();
             modItemsControl.ItemsSource = modPages;
         }
 
@@ -50,41 +62,6 @@ namespace Mod_Manager_V2
             {
                 DragMove();
             }
-        }
-
-        private void CategoryButton_Click(object sender, RoutedEventArgs e)
-        {
-            Button categoryButton = (Button)sender;
-            string? category = categoryButton.Content.ToString();
-            List<ModPage> sortedModPages;
-
-            switch (category)
-            {
-                case "Default":
-                    sortedModPages = modPages; // no sorting needed, display all mod pages
-                    break;
-                case "Name":
-                    sortedModPages = modPages.OrderBy(m => m.Name).ToList(); // sort by name
-                    break;
-                case "Version":
-                    sortedModPages = modPages.OrderBy(m => m.Version).ToList(); // sort by version
-                    break;
-                case "Creator":
-                    sortedModPages = modPages.OrderBy(m => m.Creator).ToList(); // sort by creator
-                    break;
-                case "Upload Date":
-                    sortedModPages = modPages.OrderBy(m => m.UploadDate).ToList(); // sort by upload date
-                    break;
-                case "Installed":
-                    sortedModPages = modPages.OrderBy(m => m.IsCRSRequired).ToList(); // this does fuck all rn and is just to compile
-                    break;
-                default:
-                    sortedModPages = modPages; // needs to be here or the updating fucks itself and default sorting is killed
-                    break;
-            }
-
-            // update the items of the itemscontrol to display the sorted mod pages
-            modItemsControl.ItemsSource = sortedModPages;
         }
 
         #region Downloading
@@ -133,7 +110,7 @@ namespace Mod_Manager_V2
             return filename;
         }
         #endregion
-
+        #region Buttons
         private void HomeButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
             SettingsFrame.Visibility = Visibility.Hidden;
@@ -155,5 +132,52 @@ namespace Mod_Manager_V2
                 Environment.Exit(1);
             }
         }
+
+        private void Installed_Click(object sender, RoutedEventArgs e)
+        {
+            GetDownloadedModPages();
+            MWModPages.Visibility = Visibility.Hidden;
+            DWModPages.Visibility = Visibility.Visible;
+        }
+
+        private void CategoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button categoryButton = (Button)sender;
+            string? category = categoryButton.Content.ToString();
+            List<ModPage> sortedModPages;
+
+            switch (category)
+            {
+                case "Default":
+                    sortedModPages = modPages; // no sorting needed, display all mod pages
+                    break;
+                case "Name":
+                    sortedModPages = modPages.OrderBy(m => m.Name).ToList(); // sort by name
+                    break;
+                case "Version":
+                    sortedModPages = modPages.OrderBy(m => m.Version).ToList(); // sort by version
+                    break;
+                case "Creator":
+                    sortedModPages = modPages.OrderBy(m => m.Creator).ToList(); // sort by creator
+                    break;
+                case "Upload Date":
+                    sortedModPages = modPages.OrderBy(m => m.UploadDate).ToList(); // sort by upload date
+                    break;
+                default:
+                    sortedModPages = modPages; // needs to be here or the updating fucks itself and default sorting is killed
+                    break;
+            }
+
+            MWModPages.Visibility = Visibility.Visible;
+            DWModPages.Visibility = Visibility.Hidden;
+            modItemsControl.ItemsSource = sortedModPages;
+        }
+
+
+        private void UninstallButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        #endregion
     }
 }

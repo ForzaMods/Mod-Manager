@@ -4,6 +4,7 @@ using System.Windows;
 using IniParser;
 using IniParser.Model;
 using Mod_Manager_V2.PagesAndWindows;
+using Newtonsoft.Json.Linq;
 
 namespace Mod_Manager_V2.Resources
 {
@@ -17,9 +18,11 @@ namespace Mod_Manager_V2.Resources
             #region Strings And Bools
             BaseDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Forza Mod Manager";
             string SettingsFile = BaseDirectory + @"\Settings.ini";
+            string LocalJson = BaseDirectory + @"\DownloadedMods.json";
             bool MainFolderExists = File.Exists(BaseDirectory);
             bool OriginalFilesFolderExists = File.Exists(BaseDirectory + @"\Original Files");
             bool SettingsFileExists = File.Exists(SettingsFile);
+            bool LocalJsonExists = File.Exists(LocalJson);
             #endregion
 
             #region Create Files
@@ -28,6 +31,8 @@ namespace Mod_Manager_V2.Resources
             if (!OriginalFilesFolderExists) { Directory.CreateDirectory(BaseDirectory + @"\Original Files"); }
 
             if (!SettingsFileExists) { using (File.Create(SettingsFile)) { }; SetupSettingsFile(); }
+
+            if (!LocalJsonExists) { using (File.Create(LocalJson)) { }; SetupLocalJson(); }
             #endregion
         }
 
@@ -45,6 +50,24 @@ namespace Mod_Manager_V2.Resources
             Settings["Settings"]["Usermode"] = "True";
             SettingsParser.WriteFile(SettingsFile, Settings);
             #endregion
+        }
+
+        public static void SetupLocalJson()
+        {
+            #region String
+            // is like that else the file comes out all fucky and shit
+string jsonString = @"
+{
+    ""downloadedmods"": [
+        {
+            ""id"": 0
+        }
+    ]
+}";
+            #endregion
+
+            JObject json = JObject.Parse(jsonString);
+            File.WriteAllText(BaseDirectory + @"\DownloadedMods.json", jsonString);
         }
 
         public static void CheckForDiscordRPC()

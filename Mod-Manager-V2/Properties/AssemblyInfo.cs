@@ -1,3 +1,6 @@
+using System.Reflection;
+using System.Resources;
+using System.Runtime.InteropServices;
 using System.Windows;
 
 [assembly: ThemeInfo(
@@ -8,3 +11,17 @@ using System.Windows;
                                               //(used if a resource is not found in the page,
                                               // app, or any theme specific resource dictionaries)
 )]
+
+[assembly: AssemblyTitle("ForzaMods Mod Manager")]
+[assembly: AssemblyDescription("A mod manager for Forza Horizon 5")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("ForzaMods")]
+[assembly: AssemblyProduct("Forza Horizon 5 Mod Manager")]
+[assembly: AssemblyCopyright("Copyright © 2023 ForzaMods")]
+[assembly: AssemblyTrademark("")]
+
+[assembly: ComVisible(false)]
+
+[assembly: AssemblyVersion("2.1")]
+[assembly: AssemblyFileVersion("2.1")]
+[assembly: NeutralResourcesLanguage("en-GB")]
