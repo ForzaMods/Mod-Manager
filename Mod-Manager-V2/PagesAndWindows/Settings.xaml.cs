@@ -137,5 +137,11 @@ namespace Mod_Manager_V2.PagesAndWindows
                 MessageBox.Show("Path not found");
             }
         }
+
+        private void RefreshPages_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.mw.GetModPages();
+            MainWindow.mw.GetDownloadedModPages();
+        }
     }
 }

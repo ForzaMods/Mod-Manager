@@ -21,14 +21,9 @@ namespace Mod_Manager_V2.Resources
         public string? FilePath { get; set; } // this isnt actually necessary because used only if category is else
     }
 
-    public class DownloadedModsPage
-    {
-        public int Id { get; set; }
-    }
-
     public class ModPageParser
     {
-        private const string rawUrl = "https://raw.githubusercontent.com/ForzaMods/ModManager/V2/Mods.json?token=GHSAT0AAAAAACC2H7UBNT4HVNSTV25PY7XCZESWAZA"; 
+        private const string rawUrl = "https://raw.githubusercontent.com/ForzaMods/ModManager/V2/Mods.json"; 
 
         public async Task<List<ModPage>> ParseModPagesFromGitHub()
         {
@@ -37,6 +32,14 @@ namespace Mod_Manager_V2.Resources
             JArray modsArray = (JArray)jsonObject["mods"];
             List<ModPage> modPages = modsArray.ToObject<List<ModPage>>();
             return modPages;
+        }
+
+        public async Task<List<ModPage>> ParseModPagesFromLocalJson()
+        {
+            JObject jsonObject = JObject.Parse(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Forza Mod Manager\DownloadedMods.json");
+            JArray modsArray = (JArray)jsonObject["DownloadedMods"];
+            List<ModPage> DownloadedModPages = modsArray.ToObject<List<ModPage>>();
+            return DownloadedModPages;
         }
 
         private async Task<string> DownloadJsonFromUrl(string url)
@@ -53,15 +56,6 @@ namespace Mod_Manager_V2.Resources
                     return string.Empty;
                 }
             }
-        }
-
-        public Task<List<DownloadedModsPage>> ParseModPagesFromLocalJson()
-        {
-            var Json = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Forza Mod Manager\Downloaded.json";
-            JObject jsonObject = JObject.Parse(Json);
-            JArray modsArray = (JArray)jsonObject["DownloadedMods"];
-            List<DownloadedModsPage> DownloadedmodPages = modsArray.ToObject<List<DownloadedModsPage>>();
-            return Task.FromResult(DownloadedmodPages);
         }
     }
 }

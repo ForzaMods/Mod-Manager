@@ -11,6 +11,7 @@
     <Grid>
         <mah:ToggleSwitch x:Name="DiscordRPC" Content="Discord RPC" Margin="15" HorizontalAlignment="Left" VerticalAlignment="Top" Toggled="DiscordRPC_Toggled"/>
         <Button x:Name="RevertCRS" Content="Revert back to stock renderscenarios" Height="35" Click="RevertCRS_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="15" />
+        <Button x:Name="RefreshPages" Content="Refresh Pages" Height="35" Click="RefreshPages_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="15, 60" />
 
         <TextBlock Text="Special Thanks to:" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="35" FontSize="16" Margin="15, 12.5"/>
         <TextBlock Text="Draff - Auto path getting" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="35" FontSize="13" Margin="15, 35"/>

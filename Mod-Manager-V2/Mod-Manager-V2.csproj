@@ -13,7 +13,7 @@
     <FileVersion>2.0.0.0</FileVersion>
     <Company>$(Authors)</Company>
     <Authors>$(AssemblyName)</Authors>
-    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Images\Icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Icon.ico" />
+    <Content Include="Resources\Images\Icon.ico" />
   </ItemGroup>
 
   <ItemGroup>

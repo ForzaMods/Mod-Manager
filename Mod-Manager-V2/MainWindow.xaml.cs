@@ -10,6 +10,8 @@ using System.Net;
 using Mod_Manager_V2.Windows;
 using IniParser;
 using IniParser.Model;
+using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace Mod_Manager_V2
 {
@@ -18,7 +20,7 @@ namespace Mod_Manager_V2
         #region variables
         private ModPageParser modPageParser;
         public List<ModPage> modPages { get; set; }
-        public List<DownloadedModsPage> downloadedPages { get; set; }
+        public List<ModPage> DownloadedModPages { get; set; }
         public List<ModPage> sortedModPages { get; set; }
         public static MainWindow mw;
         public static string BaseDir;
@@ -29,31 +31,47 @@ namespace Mod_Manager_V2
         {
             InitializeComponent();
             SettingsFile.CreateSettingsFile();
-            #region Path Checking shit
+            #region Path Checking shit, local json.
             string ShittySettingsFile = @"C:\Users\" + Environment.UserName + @"\Documents\Forza Mod Manager\Settings.ini";
             var SettingsParser = new FileIniDataParser();
             IniData Settings = SettingsParser.ReadFile(ShittySettingsFile);
             if (Settings["Settings"]["Usermode"] != "True") { CheckForPath.CheckIfFolderExists(); } else { CheckForAdmin.FirstLaunch(); }
+
+            if(!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Forza Mod Manager\DownloadedMods.json"))
+                File.Create(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Forza Mod Manager\DownloadedMods.json");
+            #endregion
+            #region vars
+            modPages = new List<ModPage>();
+            DownloadedModPages = new List<ModPage>();
+            modPageParser = new ModPageParser();
             #endregion
             SettingsFile.CheckForDiscordRPC();
-            modPages = new List<ModPage>();
-            downloadedPages = new List<DownloadedModsPage>();
-            modPageParser = new ModPageParser();
             GetModPages();
+
+            try
+            {
+                JObject jsonObject = JObject.Parse(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Forza Mod Manager\DownloadedMods.json");
+                JArray modsArray = (JArray)jsonObject["DownloadedMods"];
+                GetDownloadedModPages();
+            }
+            catch
+            {
+                Installed.IsEnabled = false;
+            }
+            
             mw = this;
-            //CategoryButton_Click(new Object(), new RoutedEventArgs());
         }
 
-        private async void GetModPages()
+        public async void GetModPages()
         {
             modPages = await modPageParser.ParseModPagesFromGitHub();
             modItemsControl.ItemsSource = modPages;
         }
 
-        private async void GetDownloadedModPages()
+        public async void GetDownloadedModPages()
         {
-            downloadedPages = await modPageParser.ParseModPagesFromLocalJson();
-            modItemsControl.ItemsSource = modPages;
+            DownloadedModPages = await modPageParser.ParseModPagesFromLocalJson();
+            DWmodItemsControl.ItemsSource = DownloadedModPages;
         }
 
         private void DraggingFunctionality(object sender, MouseButtonEventArgs e)
@@ -78,17 +96,29 @@ namespace Mod_Manager_V2
                 if (Category == "LibraryFolder") { DownloadPath = BaseDir + @"\media\stripped\mediaoverride\rc0\cars\_library"; }
                 if (Category == "Else") { DownloadPath = BaseDir + modPage.FilePath; }
 
+                if(!File.Exists(DownloadPath))
+                {
+                    Directory.CreateDirectory(DownloadPath);
+                }
+
                 using (WebClient httpClient = new WebClient())
                 {
                     string? url = modPage.FileLink;
                     string? filename = getFilename(url);
-                    httpClient.DownloadFile(url, DownloadPath + "/" + filename);
-                    if (modPage.IsCRSRequired)
+                    try
                     {
-                        errorReporting.ErrorCode.Content = "This mod requires CRS. Do you wanna install?";
-                        errorReporting.Install.Visibility = Visibility.Visible;
-                        errorReporting.CRS = true;
-                        errorReporting.Show();
+                        httpClient.DownloadFile(url, DownloadPath + "/" + filename);
+                        if (modPage.IsCRSRequired)
+                        {
+                            errorReporting.ErrorCode.Content = "This mod requires CRS. Do you wanna install?";
+                            errorReporting.Install.Visibility = Visibility.Visible;
+                            errorReporting.CRS = true;
+                            errorReporting.Show();
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Download has failed.");
                     }
                 }
             }
@@ -105,7 +135,7 @@ namespace Mod_Manager_V2
         {
             Uri uri = new Uri(hreflink);
 
-            string filename = System.IO.Path.GetFileName(uri.LocalPath);
+            string filename = Path.GetFileName(uri.LocalPath);
 
             return filename;
         }
@@ -173,10 +203,9 @@ namespace Mod_Manager_V2
             modItemsControl.ItemsSource = sortedModPages;
         }
 
-
         private void UninstallButton_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
         #endregion
     }
