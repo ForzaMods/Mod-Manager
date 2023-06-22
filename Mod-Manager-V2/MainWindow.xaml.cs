@@ -89,6 +89,20 @@ namespace Mod_Manager_V2
             ModPage? modPage = downloadButton.DataContext as ModPage;
             var Category = modPage.Category;
             var DownloadPath = "";
+            #region crs bool
+            bool CRSInstalled()
+            {
+                FileInfo file = new FileInfo(BaseDir + @"\media\renderscenarios.zip");
+                long fileSize = file.Length;
+                long sizeinkb = fileSize / 1024;
+                long apprweight = 40;
+
+                if (Math.Abs(sizeinkb - apprweight) <= 5)
+                    return false;
+                else 
+                    return true;
+            }
+            #endregion
 
             if (BaseDir != "Not Found")
             {
@@ -108,7 +122,7 @@ namespace Mod_Manager_V2
                     try
                     {
                         httpClient.DownloadFile(url, DownloadPath + "/" + filename);
-                        if (modPage.IsCRSRequired)
+                        if (modPage.IsCRSRequired && !CRSInstalled())
                         {
                             errorReporting.ErrorCode.Content = "This mod requires CRS. Do you wanna install?";
                             errorReporting.Install.Visibility = Visibility.Visible;
