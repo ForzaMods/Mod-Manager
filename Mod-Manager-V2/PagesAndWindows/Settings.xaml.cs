@@ -140,8 +140,8 @@ namespace Mod_Manager_V2.PagesAndWindows
 
         private void RefreshPages_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.mw.GetModPages();
-            MainWindow.mw.GetDownloadedModPages();
+            MainWindow.mw.GetModPages("Github");
+            MainWindow.mw.GetModPages("Downloaded");
         }
     }
 }

@@ -46,13 +46,13 @@ namespace Mod_Manager_V2
             modPageParser = new ModPageParser();
             #endregion
             SettingsFile.CheckForDiscordRPC();
-            GetModPages();
+            GetModPages("Github");
 
             try
             {
                 JObject jsonObject = JObject.Parse(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Forza Mod Manager\DownloadedMods.json");
                 JArray modsArray = (JArray)jsonObject["DownloadedMods"];
-                GetDownloadedModPages();
+                GetModPages("Downloaded");
             }
             catch
             {
@@ -62,34 +62,31 @@ namespace Mod_Manager_V2
             mw = this;
         }
 
-        public async void GetModPages()
+        public async void GetModPages(string index)
         {
-            modPages = await modPageParser.ParseModPagesFromGitHub();
-            modItemsControl.ItemsSource = modPages;
-        }
-
-        public async void GetDownloadedModPages()
-        {
-            DownloadedModPages = await modPageParser.ParseModPagesFromLocalJson();
-            DWmodItemsControl.ItemsSource = DownloadedModPages;
+            if (index == "Github")
+            {
+                modPages = await modPageParser.ParseModPagesFromGitHub();
+                modItemsControl.ItemsSource = modPages;
+            }
+            else if (index == "Downloaded")
+                DownloadedModPages = await modPageParser.ParseModPagesFromLocalJson();
         }
 
         private void DraggingFunctionality(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
-            {
                 DragMove();
-            }
         }
 
         #region Downloading
         private void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
+            #region vars
             Button downloadButton = (Button)sender;
             ModPage? modPage = downloadButton.DataContext as ModPage;
             var Category = modPage.Category;
             var DownloadPath = "";
-            #region crs bool
             bool CRSInstalled()
             {
                 FileInfo file = new FileInfo(BaseDir + @"\media\renderscenarios.zip");
@@ -110,10 +107,9 @@ namespace Mod_Manager_V2
                 if (Category == "LibraryFolder") { DownloadPath = BaseDir + @"\media\stripped\mediaoverride\rc0\cars\_library"; }
                 if (Category == "Else") { DownloadPath = BaseDir + modPage.FilePath; }
 
-                if(!File.Exists(DownloadPath))
-                {
+                if (!File.Exists(DownloadPath))
                     Directory.CreateDirectory(DownloadPath);
-                }
+
 
                 using (WebClient httpClient = new WebClient())
                 {
@@ -121,7 +117,11 @@ namespace Mod_Manager_V2
                     string? filename = getFilename(url);
                     try
                     {
-                        httpClient.DownloadFile(url, DownloadPath + "/" + filename);
+                        if (File.Exists(DownloadPath + "/" + filename))
+                            httpClient.DownloadFile(url, DownloadPath + "/" + filename);
+                        else
+                            return;
+
                         if (modPage.IsCRSRequired && !CRSInstalled())
                         {
                             errorReporting.ErrorCode.Content = "This mod requires CRS. Do you wanna install?";
@@ -155,33 +155,30 @@ namespace Mod_Manager_V2
         }
         #endregion
         #region Buttons
-        private void HomeButton_MouseDown(object sender, MouseButtonEventArgs e)
+        private void PageChange(object sender, MouseButtonEventArgs e)
         {
-            SettingsFrame.Visibility = Visibility.Hidden;
-            MWModPages.Visibility = Visibility.Visible;
-            SortingButtons.Visibility = Visibility.Visible;
-        }
+            Button button = (Button)sender;
+            string page = button.Name.ToString();
 
-        private void Settings_Button(object sender, RoutedEventArgs e)
-        {
-            SettingsFrame.Visibility = Visibility.Visible;
-            MWModPages.Visibility = Visibility.Hidden;
-            SortingButtons.Visibility = Visibility.Hidden;
+            switch (page)
+            {
+                case "Home":
+                    SettingsFrame.Visibility = Visibility.Hidden;
+                    MWModPages.Visibility = Visibility.Visible;
+                    SortingButtons.Visibility = Visibility.Visible;
+                    break;
+                case "Settings":
+                    SettingsFrame.Visibility = Visibility.Visible;
+                    MWModPages.Visibility = Visibility.Hidden;
+                    SortingButtons.Visibility = Visibility.Hidden;
+                    break;
+            }
         }
 
         private void CloseButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
-            {
                 Environment.Exit(1);
-            }
-        }
-
-        private void Installed_Click(object sender, RoutedEventArgs e)
-        {
-            GetDownloadedModPages();
-            MWModPages.Visibility = Visibility.Hidden;
-            DWModPages.Visibility = Visibility.Visible;
         }
 
         private void CategoryButton_Click(object sender, RoutedEventArgs e)
@@ -207,13 +204,15 @@ namespace Mod_Manager_V2
                 case "Upload Date":
                     sortedModPages = modPages.OrderBy(m => m.UploadDate).ToList(); // sort by upload date
                     break;
+                case "Installed":
+                    GetModPages("Downloaded");
+                    sortedModPages = DownloadedModPages;
+                    break;
                 default:
                     sortedModPages = modPages; // needs to be here or the updating fucks itself and default sorting is killed
                     break;
             }
 
-            MWModPages.Visibility = Visibility.Visible;
-            DWModPages.Visibility = Visibility.Hidden;
             modItemsControl.ItemsSource = sortedModPages;
         }
 
