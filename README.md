@@ -1,6 +1,13 @@
 # Forza Mods Mod Manager
 The Forza Mods Mod Manager is a tool designed to simplify the installation and management of mods for the popular racing game, Forza Horizon 5.
 
+# I plan to do what?
+Almost nothing :).
+
+This project is semi dead, its barely being worked on.
+
+I am very open to pull requests, this project can be revived using them. I will start committing some stuff soon (probably in a month)
+
 ## Features
 - Mod Installation: The mod manager provides a streamlined installation process for mods. It automatically detects compatible mods and ensures that they are properly installed in your Forza game directory. This saves you time and effort by eliminating the need for manual file placement.
 
