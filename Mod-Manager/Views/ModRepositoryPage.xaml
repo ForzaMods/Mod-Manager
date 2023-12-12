@@ -1,0 +1,177 @@
+﻿<Page x:Class="Mod_Manager.Views.ModRepositoryPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:local="clr-namespace:Mod_Manager.Views"
+      mc:Ignorable="d"
+      Title="ModRepositoryPage"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      d:DataContext="{d:DesignInstance local:ModRepositoryPage, IsDesignTimeCreatable=False}"
+      ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+      ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+      Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+    
+    <Page.InputBindings>
+        <KeyBinding
+            Key="F"
+            Command="{Binding ElementName=AutoSuggestBox, Path=FocusCommand}"
+            Modifiers="Control" />
+    </Page.InputBindings>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="{Binding ViewModel.LoadingHeight}"/>
+            <RowDefinition Height="{Binding ViewModel.ModListHeight}"/>
+            
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />                
+                <ColumnDefinition Width="Auto" />                
+                <ColumnDefinition Width="Auto" />                
+                <ColumnDefinition Width="Auto" />                
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ui:TextBox x:Name="AutoSuggestBox" 
+                               PlaceholderText="Search" 
+                               IconPlacement="Right"
+                               Padding="10 5 10 5"
+                               Margin="0 0 10 0"
+                               KeyDown="AutoSuggestBox_OnKeyDown">
+                <ui:TextBox.Icon>
+                    <ui:SymbolIcon Symbol="Search24"/>
+                </ui:TextBox.Icon>
+            </ui:TextBox>
+            
+            <ui:TextBlock Grid.Column="2"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          FontTypography="BodyStrong"
+                          Margin="0 0 10 0"
+                          Text="Filter by:"/>
+            
+            <ComboBox Grid.Column="3"
+                      IsEnabled="{Binding ViewModel.AreModsLoaded}"
+                      Padding="10,5,10,5"
+                      Margin="0 0 10 0"
+                      SelectedIndex="0">
+            
+                <ComboBoxItem Content="Default"/>
+                <ComboBoxItem Content="Name"/>
+                <ComboBoxItem Content="Creator"/>
+                <ComboBoxItem Content="Version"/>
+                <ComboBoxItem Content="Release Date"/>
+                
+                
+            </ComboBox>
+            
+            <ui:TextBlock Grid.Column="4" 
+                          FontTypography="BodyStrong"
+                          Text="Status: "
+                          Margin="0 0 10 0"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"/>
+            
+            
+            <ComboBox Grid.Column="5"
+                      IsEnabled="{Binding ViewModel.AreModsLoaded}"
+                      Padding="10,5,10,5"
+                      SelectedIndex="0">
+            
+                <ComboBoxItem Content="Available"/>
+                <ComboBoxItem Content="Installed"/>
+                
+                
+            </ComboBox>
+
+            
+        </Grid>
+        
+        <Grid Row="1"> 
+            
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ViewModel.AreModsLoaded}" Value="True">
+                            <Setter Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ViewModel.AreModsLoaded}" Value="False">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            
+            <ui:TextBlock FontTypography="BodyStrong"
+                          Text="{Binding ViewModel.LoadingText}"
+                          Height="{Binding ViewModel.LoadingSize}"
+                          Margin="0 25 0 0"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Top"/>
+            
+            <ProgressBar IsIndeterminate="True"
+                         VerticalAlignment="Bottom"/>
+        </Grid>
+
+        
+        <Grid Row="2" Margin="0 10 0 0">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ViewModel.AreModsLoaded}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ViewModel.AreModsLoaded}" Value="False">
+                            <Setter Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            
+            <ui:VirtualizingItemsControl
+                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                ItemsSource="{Binding ViewModel.DataMods, Mode=OneWay}"
+                VirtualizingPanel.CacheLength="5,5"
+                VirtualizingPanel.CacheLengthUnit="Item"
+                VirtualizingPanel.IsVirtualizing="True"
+                VirtualizingPanel.VirtualizationMode="Recycling"
+                VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                VirtualizingPanel.IsContainerVirtualizable="True">
+                
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" Margin="5">
+                            <Button Content="{Binding Id}"
+                                    Cursor="Hand">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <ui:Image Source="{Binding ImageUrls[0]}"
+                                                  Width="250" 
+                                                  Height="175"
+                                                  CornerRadius="5" 
+                                                  Stretch="UniformToFill" 
+                                                  Background="White"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <ui:TextBox 
+                                TextAlignment="Center"
+                                Focusable="False"
+                                Cursor="Arrow"
+                                Padding="10,5,10,5"
+                                Text="{Binding Name}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                
+            </ui:VirtualizingItemsControl>
+        </Grid>
+    </Grid>
+</Page>

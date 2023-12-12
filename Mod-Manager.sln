@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mod-Manager", "Mod-Manager\Mod-Manager.csproj", "{BC28A4CB-8242-48D4-BA83-BB85E0E741D5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC28A4CB-8242-48D4-BA83-BB85E0E741D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC28A4CB-8242-48D4-BA83-BB85E0E741D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC28A4CB-8242-48D4-BA83-BB85E0E741D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC28A4CB-8242-48D4-BA83-BB85E0E741D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
