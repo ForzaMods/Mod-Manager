@@ -12,14 +12,14 @@ public class ApplicationHostService(IServiceProvider serviceProvider) : IHostedS
 {
     private INavigationWindow? _navigationWindow;
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    public Task StartAsync(CancellationToken cancellationToken)
     {
-        await HandleActivationAsync();
+        return HandleActivationAsync();
     }
 
-    public async Task StopAsync(CancellationToken cancellationToken)
+    public Task StopAsync(CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
+        return Task.CompletedTask;
     }
 
     private async Task HandleActivationAsync()

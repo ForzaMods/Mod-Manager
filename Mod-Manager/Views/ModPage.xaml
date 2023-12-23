@@ -31,13 +31,14 @@
                 <Grid>
                     <StackPanel>
                         
-                        <ui:TextBlock Text="{Binding ViewModel.Mod.Name}"
+                        <ui:TextBlock Text="{Binding SharedViewModel.Mod.Name}"
                                       FontTypography="Subtitle"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Top"/>
                         
                         
-                        <ui:Image Source="{Binding ViewModel.Mod.ImageUrls[0]}"
+                        <!-- ReSharper disable once Xaml.PossibleNullReferenceException -->
+                        <ui:Image Source="{Binding SharedViewModel.Mod.ImageUrls[0]}"
                                   Margin="0 15 0 0"
                                   Width="250" 
                                   Height="175"
@@ -56,7 +57,7 @@
                     
                     <ui:TextBlock HorizontalAlignment="Center"
                                   VerticalAlignment="Bottom"
-                                  Text="{Binding ViewModel.Mod.Author}"/>
+                                  Text="{Binding SharedViewModel.Mod.Author}"/>
                     
                 </Grid>
                 
@@ -86,7 +87,7 @@
 
                         <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
                             <ui:VirtualizingItemsControl Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                                                         ItemsSource="{Binding ViewModel.Mod.ImageUrls, Mode=OneWay}"
+                                                         ItemsSource="{Binding SharedViewModel.Mod.ImageUrls, Mode=OneWay}"
                                                          VirtualizingPanel.ScrollUnit="Item"
                                                          VirtualizingPanel.CacheLength="5,5"
                                                          VirtualizingPanel.CacheLengthUnit="Item"
@@ -147,7 +148,7 @@
                                 
                                 <ui:TextBlock FontTypography="Subtitle" Text="Description"/>
                                 
-                                <ui:TextBlock Text="{Binding ViewModel.Mod.ModDescription}"
+                                <ui:TextBlock Text="{Binding SharedViewModel.Mod.ModDescription}"
                                               Margin="0 8 0 0"
                                               FontTypography="BodyStrong"
                                               HorizontalAlignment="Left"
@@ -168,7 +169,7 @@
                                                   VerticalAlignment="Top"/>
 
                                     
-                                    <ui:TextBlock Text="{Binding ViewModel.Mod.ReleaseDate}"
+                                    <ui:TextBlock Text="{Binding SharedViewModel.Mod.ReleaseDate}"
                                                   Margin="0 8 0 0"
                                                   FontTypography="BodyStrong"
                                                   HorizontalAlignment="Left"
@@ -185,7 +186,7 @@
                                                   HorizontalAlignment="Left"
                                                   VerticalAlignment="Top"/>
 
-                                    <ui:TextBlock Text="{Binding ViewModel.Mod.Version}"
+                                    <ui:TextBlock Text="{Binding SharedViewModel.Mod.Version}"
                                                   Margin="0 8 0 0"
                                                   FontTypography="BodyStrong"
                                                   HorizontalAlignment="Left"

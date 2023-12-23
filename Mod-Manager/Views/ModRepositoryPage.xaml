@@ -148,9 +148,10 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical" Margin="5">
-                            <Button Content="{Binding Id}"
-                                    Cursor="Hand">
-                                <Button.Template>
+                            <ui:Button Content="{Binding Id}"
+                                    Cursor="Hand"
+                                    Click="ButtonBase_OnClick">
+                                <ui:Button.Template>
                                     <ControlTemplate>
                                         <ui:Image Source="{Binding ImageUrls[0]}"
                                                   Width="250" 
@@ -159,8 +160,8 @@
                                                   Stretch="UniformToFill" 
                                                   Background="White"/>
                                     </ControlTemplate>
-                                </Button.Template>
-                            </Button>
+                                </ui:Button.Template>
+                            </ui:Button>
                             <ui:TextBox 
                                 TextAlignment="Center"
                                 Focusable="False"

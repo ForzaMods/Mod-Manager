@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Mod_Manager.Views;
-using Wpf.Ui;
 using Wpf.Ui.Controls;
 
 namespace Mod_Manager.ViewModels;
@@ -15,12 +14,12 @@ public partial class MainWindowViewModel : ObservableObject
     private string _applicationTitle = string.Empty;
 
     [ObservableProperty]
-    private ObservableCollection<object> _mainItems = new();
+    private ObservableCollection<object> _mainItems = [];
 
     [ObservableProperty]
-    private ObservableCollection<object> _footerItems = new();
+    private ObservableCollection<object> _footerItems = [];
 
-    public MainWindowViewModel(INavigationService navigationService)
+    public MainWindowViewModel()
     {
         if (IsInitialized)
         {
@@ -34,8 +33,8 @@ public partial class MainWindowViewModel : ObservableObject
     {
         ApplicationTitle = "Forza Mods - Mod Manager";
         
-        MainItems = new ObservableCollection<object>
-        {
+        MainItems =
+        [
             new NavigationViewItem
             {
                 Content = "Home",
@@ -47,24 +46,18 @@ public partial class MainWindowViewModel : ObservableObject
                 Content = "Mod Repository",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Library24 },
                 TargetPageType = typeof(ModRepositoryPage)
-            },
-            new NavigationViewItem
-            {
-                Content = "Mod Page Example",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.Library24 },
-                TargetPageType = typeof(ModPage)
             }
-        };
+        ];
 
-        FooterItems = new ObservableCollection<object>
-        {
+        FooterItems =
+        [
             new NavigationViewItem
             {
                 Content = "Settings",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Settings24 },
                 TargetPageType = typeof(SettingsPage)
             }
-        };
+        ];
 
         IsInitialized = true;
     }

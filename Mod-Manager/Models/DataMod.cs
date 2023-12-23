@@ -19,5 +19,5 @@ public class DataMod
     public bool IsEnabled { get; set; }
 
     // Mod tags or categories
-    public List<string> Tags { get; set; }
+    public List<string>? Tags { get; set; }
 }

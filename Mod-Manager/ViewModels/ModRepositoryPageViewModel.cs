@@ -30,7 +30,7 @@ public partial class ModRepositoryPageViewModel : ObservableObject, INavigationA
     private double _loadingSize;
     
     [ObservableProperty] 
-    private ObservableCollection<DataMod> _dataMods = new();
+    private ObservableCollection<DataMod> _dataMods = [];
     
     public void OnNavigatedTo()
     {
@@ -56,14 +56,12 @@ public partial class ModRepositoryPageViewModel : ObservableObject, INavigationA
         AreModsLoaded = false;
         LoadingStart();
         TextLoadingAnimation();
-        _completionSource = new TaskCompletionSource<bool>();
-        ParseModPages();
-        await _completionSource.Task;
+        var completionSource = new TaskCompletionSource<bool>();
+        ParseModPages(completionSource);
+        await completionSource.Task;
         LoadingEnd();
         AreModsLoaded = true;
     }
-    
-    private TaskCompletionSource<bool>? _completionSource;
     
     private async void TextLoadingAnimation()
     {
@@ -76,8 +74,8 @@ public partial class ModRepositoryPageViewModel : ObservableObject, INavigationA
             await Task.Delay(250);
         }
     }
-
-    private async void ParseModPages()
+    
+    private async void ParseModPages(TaskCompletionSource<bool> completionSource)
     {
         if (DataMods.Any())
         {
@@ -86,12 +84,16 @@ public partial class ModRepositoryPageViewModel : ObservableObject, INavigationA
         
         var alphabet = GenerateRandomStrings(100, 5, 5);
         var enumerable = alphabet.ToArray();
-        var dataMods = enumerable.Select(t => new DataMod
+
+        List<DataMod> dataMods = [];
+        dataMods.AddRange(enumerable.Select((t, i) => new DataMod
         {
-            Name = t,
-            Id = 5,
-            ImageUrls = new List<string> { "https://media.discordapp.net/attachments/1034577082933592124/1181923291347288084/Screenshot_2023-12-06_052446.png" }
-        }).ToList();
+            Name = t, Id = i,
+            ImageUrls = new List<string>
+            {
+                "https://media.discordapp.net/attachments/1034577082933592124/1181923291347288084/Screenshot_2023-12-06_052446.png"
+            }
+        }));
         var cpuThreads = Environment.ProcessorCount;
         var batchSize = cpuThreads * 2;
         var sleepTime = cpuThreads <= 4 ? cpuThreads : cpuThreads / 2;
@@ -111,7 +113,7 @@ public partial class ModRepositoryPageViewModel : ObservableObject, INavigationA
             await Task.Delay(sleepTime); 
         }
         
-        _completionSource?.SetResult(true);
+        completionSource.SetResult(true);
     }
 
     private static List<string> GenerateRandomStrings(int numberOfStrings, int minLength, int maxLength)
@@ -141,9 +143,6 @@ public partial class ModRepositoryPageViewModel : ObservableObject, INavigationA
         ModListHeight = new GridLength(1, GridUnitType.Star);
         LoadingHeight = new GridLength(0, GridUnitType.Star);
         LoadingSize = 0d;
-        
-        
-        
     }
     
     private static string GenerateRandomString(int length)
@@ -162,8 +161,8 @@ public partial class ModRepositoryPageViewModel : ObservableObject, INavigationA
     
     
     [RelayCommand]
-    private async Task OnRefresh()
+    private Task OnRefresh()
     {
-        await LoadModPages();
+        return LoadModPages();
     }
 }

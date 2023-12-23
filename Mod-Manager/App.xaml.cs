@@ -20,29 +20,35 @@ public partial class App
         {
             c.SetBasePath(AppContext.BaseDirectory);
         })
-        .ConfigureServices(
-            (_, services) =>
-            {
-                services.AddHostedService<ApplicationHostService>();
+        .ConfigureServices((_, services) => 
+        {
+            services.AddHostedService<ApplicationHostService>();
+            services.AddSingleton<INavigationService, NavigationService>();
+            services.AddSingleton<ISnackbarService, SnackbarService>();
+            services.AddSingleton<IContentDialogService, ContentDialogService>();
+            services.AddSingleton<SharedViewModel>();
 
-                services.AddSingleton<INavigationWindow, MainWindow>();
-                services.AddSingleton<MainWindowViewModel>();
-                services.AddSingleton<INavigationService, NavigationService>();
-                services.AddSingleton<ISnackbarService, SnackbarService>();
-                services.AddSingleton<IContentDialogService, ContentDialogService>();
+            RegisterViewModels(services);
+            RegisterViews(services);
+        }).Build();
 
-                services.AddSingleton<SettingsPage>();
-                services.AddSingleton<SettingsPageViewModel>();
-                services.AddSingleton<HomePage>();
-                services.AddSingleton<HomePageViewModel>();
-                services.AddSingleton<ModRepositoryPage>();
-                services.AddSingleton<ModRepositoryPageViewModel>();
-                services.AddSingleton<ModPage>();
-                services.AddSingleton<ModPageViewModel>();
+    private static void RegisterViewModels(IServiceCollection services)
+    {
+        services.AddSingleton<MainWindowViewModel>();
+        services.AddSingleton<HomePageViewModel>();
+        services.AddSingleton<ModRepositoryPageViewModel>();
+        services.AddSingleton<ModPageViewModel>();
+        services.AddSingleton<SettingsPageViewModel>();
+    }
 
-            }
-        )
-        .Build();
+    private static void RegisterViews(IServiceCollection services)
+    {
+        services.AddSingleton<INavigationWindow, MainWindow>();
+        services.AddSingleton<HomePage>();
+        services.AddSingleton<ModRepositoryPage>();
+        services.AddSingleton<ModPage>();
+        services.AddSingleton<SettingsPage>();
+    }
     
     private void App_OnStartup(object sender, StartupEventArgs e)
     {
